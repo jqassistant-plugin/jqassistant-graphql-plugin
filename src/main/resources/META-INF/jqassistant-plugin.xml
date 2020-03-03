@@ -20,10 +20,11 @@
         <class>org.jqassistant.contrib.plugin.graphql.api.model.UnionDeclaresTypeDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.FieldDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.InputFieldDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.graphql.api.model.InputValueDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.ListTypeDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.FieldOfTypeDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.ArgumentDescriptor</class>
-        <class>org.jqassistant.contrib.plugin.graphql.api.model.ArgumentOfTypeDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.graphql.api.model.InputValueOfTypeDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.OfElementTypeDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.InputDescriptor</class>
     </model>
@@ -33,6 +34,6 @@
     <scanner>
         <class>org.jqassistant.contrib.plugin.graphql.impl.scanner.GraphQLSchemaFileScannerPlugin</class>
         <class>org.jqassistant.contrib.plugin.graphql.impl.scanner.GraphQLSchemaURLScannerPlugin</class>
-        <class>org.jqassistant.contrib.plugin.graphql.impl.scanner.GraphQLSchemaScannerPlugin</class>
+        <class>org.jqassistant.contrib.plugin.graphql.impl.scanner.GraphQLTypeDefinitionRegistryScannerPlugin</class>
     </scanner>
 </jqassistant-plugin>

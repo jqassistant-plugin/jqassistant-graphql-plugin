@@ -6,10 +6,10 @@ import com.buschmais.xo.neo4j.api.annotation.Relation.Incoming;
 import com.buschmais.xo.neo4j.api.annotation.Relation.Outgoing;
 
 @Relation("OF_TYPE")
-public interface ArgumentOfTypeDescriptor extends RequiredTemplate, Descriptor {
+public interface InputValueOfTypeDescriptor extends RequiredTemplate, Descriptor {
 
     @Outgoing
-    ArgumentDescriptor getArgument();
+    InputValueDescriptor getInputValue();
 
     @Incoming
     TypeDescriptor getType();

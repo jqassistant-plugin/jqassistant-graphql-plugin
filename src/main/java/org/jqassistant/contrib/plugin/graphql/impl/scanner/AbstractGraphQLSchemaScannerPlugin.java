@@ -14,18 +14,14 @@ import java.io.IOException;
 
 public abstract class AbstractGraphQLSchemaScannerPlugin<R> extends AbstractScannerPlugin<R, SchemaDescriptor> {
 
-    private final SchemaGenerator schemaGenerator = new SchemaGenerator();
-    private final RuntimeWiring runtimeWiring = RuntimeWiring.newRuntimeWiring().wiringFactory(new WiringFactoryImpl()).build();
-
     @Override
-    public SchemaDescriptor scan(R resource, String path, Scope scope, Scanner scanner) throws IOException {
+    public final SchemaDescriptor scan(R resource, String path, Scope scope, Scanner scanner) throws IOException {
         ScannerContext context = scanner.getContext();
         SchemaDescriptor schemaDescriptor = getSchemaDescriptor(path, context);
-        TypeDefinitionRegistry registry = retrieveSchema(resource);
-        GraphQLSchema graphQLSchema = schemaGenerator.makeExecutableSchema(registry, runtimeWiring);
+        TypeDefinitionRegistry registry = createTypeDefinitionRegistry(resource);
         context.push(SchemaDescriptor.class, schemaDescriptor);
         try {
-            return scanner.scan(graphQLSchema, path, scope);
+            return scanner.scan(registry, path, scope);
         } finally {
             context.pop(SchemaDescriptor.class);
         }
@@ -33,6 +29,6 @@ public abstract class AbstractGraphQLSchemaScannerPlugin<R> extends AbstractScan
 
     protected abstract SchemaDescriptor getSchemaDescriptor(String path, ScannerContext context);
 
-    protected abstract TypeDefinitionRegistry retrieveSchema(R resource) throws IOException;
+    protected abstract TypeDefinitionRegistry createTypeDefinitionRegistry(R resource) throws IOException;
 
 }

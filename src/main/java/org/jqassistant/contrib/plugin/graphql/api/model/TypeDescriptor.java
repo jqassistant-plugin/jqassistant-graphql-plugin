@@ -15,7 +15,7 @@ public interface TypeDescriptor extends GraphQLDescriptor, NamedElementDescripto
 
     @Relation
     @Incoming
-    List<ArgumentOfTypeDescriptor> getArgumentOfTypes();
+    List<InputValueOfTypeDescriptor> getArgumentOfTypes();
 
     @Relation
     @Incoming

@@ -49,7 +49,7 @@ public class GraphQLSchemaURLScannerPlugin extends AbstractGraphQLSchemaScannerP
     }
 
     @Override
-    protected TypeDefinitionRegistry retrieveSchema(URL resource) throws IOException {
+    protected TypeDefinitionRegistry createTypeDefinitionRegistry(URL resource) throws IOException {
         ClientConfig clientConfig = new DefaultClientConfig();
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
         Client client = Client.create(clientConfig);

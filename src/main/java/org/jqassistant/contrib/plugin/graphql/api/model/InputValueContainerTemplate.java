@@ -4,9 +4,9 @@ import com.buschmais.xo.neo4j.api.annotation.Relation;
 
 import java.util.List;
 
-public interface ArgumentContainerTemplate {
+public interface InputValueContainerTemplate {
 
-    @Relation("DECLARES_ARGUMENT")
-    List<ArgumentDescriptor> getArguments();
+    @Relation("DECLARES_INPUT_VALUE")
+    List<InputValueDescriptor> getInputValues();
 
 }

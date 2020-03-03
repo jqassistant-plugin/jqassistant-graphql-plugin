@@ -4,11 +4,14 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
+import graphql.schema.TypeResolver;
+import graphql.schema.idl.InterfaceWiringEnvironment;
 import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
-import org.jqassistant.contrib.plugin.graphql.impl.scanner.WiringFactoryImpl;
+import graphql.schema.idl.UnionWiringEnvironment;
+import graphql.schema.idl.WiringFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -42,4 +45,27 @@ public class GraphQLProvider {
         return schemaGenerator.makeExecutableSchema(typeRegistry, runtimeWiring);
     }
 
+    private static class WiringFactoryImpl implements WiringFactory {
+
+        @Override
+        public boolean providesTypeResolver(InterfaceWiringEnvironment environment) {
+            return true;
+        }
+
+        @Override
+        public TypeResolver getTypeResolver(InterfaceWiringEnvironment environment) {
+            return env -> null;
+        }
+
+        @Override
+        public boolean providesTypeResolver(UnionWiringEnvironment environment) {
+            return true;
+        }
+
+        @Override
+        public TypeResolver getTypeResolver(UnionWiringEnvironment environment) {
+            return env -> null;
+        }
+
+    }
 }

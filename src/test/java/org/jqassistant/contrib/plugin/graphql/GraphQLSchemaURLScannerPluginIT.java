@@ -20,7 +20,7 @@ public class GraphQLSchemaURLScannerPluginIT extends AbstractPluginIT {
 
     @Test
     @TestStore
-    public void scanEndpoint() throws MalformedURLException {
+    public void scanURL() throws MalformedURLException {
         store.beginTransaction();
         String target = "http://localhost:" + port + "/graphql/";
         SchemaUrlDescriptor schemaUrlDescriptor = getScanner().scan(new URL(target), target, GraphQLScope.SCHEMA);
