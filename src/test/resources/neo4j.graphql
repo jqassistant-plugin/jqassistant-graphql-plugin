@@ -1,0 +1,10 @@
+# Defines Neo4j specific directives, not used in production code but avoid errors messages in IntelliJ GraphQL editor.
+directive @relation(
+    name: String
+    direction: direction
+) on FIELD_DEFINITION
+
+enum direction {
+    IN
+    OUT
+}
