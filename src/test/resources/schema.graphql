@@ -1,0 +1,60 @@
+directive @mine(comment: String) on QUERY
+    | MUTATION
+    | FIELD
+    | FRAGMENT_DEFINITION
+    | FRAGMENT_SPREAD
+    | INLINE_FRAGMENT
+    | SCHEMA
+    | SCALAR
+    | OBJECT
+    | FIELD_DEFINITION
+    | ARGUMENT_DEFINITION
+    | INTERFACE
+    | UNION
+    | ENUM
+    | ENUM_VALUE
+    | INPUT_OBJECT
+    | INPUT_FIELD_DEFINITION
+
+scalar Long @mine(comment: "My Long scalar")
+
+schema @mine {
+    query: Query
+    mutation: Mutation
+}
+
+type Mutation {
+    person(name:ID, age: Int): Person
+}
+
+type Query @mine(comment: "My Query Type") {
+    person : [Person!]! @mine
+    personByName(name:ID! @mine) : Person @mine
+    personByAge(age:Int = 42) : Person @mine
+    personByGender(gender:Gender = FEMALE) : Person @mine
+}
+
+enum Gender @mine {
+    FEMALE @mine
+    MALE @mine
+}
+
+interface Versioned @mine {
+    version: Long
+}
+
+type Person implements Versioned @mine {
+    name: ID!
+    age: Int
+    gender: Gender
+    version: Long
+}
+
+type Group implements Versioned {
+    name: ID!
+    members: [Person!]!
+    version: Long
+}
+
+union Everything @mine = Person | Group
+

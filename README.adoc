@@ -1,0 +1,5 @@
+:toc:
+
+= jQAssistant GraphQL Plugin
+
+The project provides a http://jqassistant.org/[jQAssistant] plugin for GraphQL
