@@ -5,7 +5,7 @@ import com.buschmais.xo.neo4j.api.annotation.Relation;
 import com.buschmais.xo.neo4j.api.annotation.Relation.Outgoing;
 
 @Label("Field")
-public interface FieldDescriptor extends GraphQLDescriptor, NamedElementDescriptor, DeprecatedTemplate, InputValueContainerTemplate, DirectiveContainerTemplate {
+public interface FieldDescriptor extends GraphQLDescriptor, NamedElementDescriptor, InputValueContainerTemplate, DirectiveContainerTemplate {
 
     @Relation
     @Outgoing

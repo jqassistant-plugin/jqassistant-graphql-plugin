@@ -31,10 +31,14 @@ public class GraphQLProvider {
 
     @PostConstruct
     public void init() throws IOException {
-        URL url = Resources.getResource("schema.graphql");
-        String sdl = Resources.toString(url, Charsets.UTF_8);
+        String sdl = new StringBuilder().append(loadSchemaFromResource("neo4j.graphql")).append(System.lineSeparator()).append(loadSchemaFromResource("schema.graphql")).toString();
         GraphQLSchema graphQLSchema = buildSchema(sdl);
         this.graphQL = GraphQL.newGraphQL(graphQLSchema).build();
+    }
+
+    private String loadSchemaFromResource(String resourceName) throws IOException {
+        URL url = Resources.getResource(resourceName);
+        return Resources.toString(url, Charsets.UTF_8);
     }
 
     private GraphQLSchema buildSchema(String sdl) {
