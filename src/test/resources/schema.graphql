@@ -28,7 +28,7 @@ type Mutation {
 }
 
 type Query @mine(comment: "My Query Type") {
-    person : [Person!]! @mine
+    person : [Person!]! @mine @deprecated(reason: "Too expensive")
     personByName(name:ID! @mine) : Person @mine
     personByAge(age:Int = 42) : Person @mine
     personByGender(gender:Gender = FEMALE) : Person @mine

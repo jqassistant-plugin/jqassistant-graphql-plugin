@@ -55,10 +55,32 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
     private void processDirectives(DirectivesContainer<?> directivesContainer, DirectiveContainerTemplate directiveContainerTemplate, NamedElementResolver namedElementResolver, Store store) throws IOException {
         for (Directive directive : directivesContainer.getDirectives()) {
             DirectiveTypeDescriptor directiveTypeDescriptor = namedElementResolver.resolve(directive.getName(), DirectiveTypeDescriptor.class);
-            DirectiveValueDescriptor valueDescriptor = store.create(DirectiveValueDescriptor.class);
-            valueDescriptor.setOfType(directiveTypeDescriptor);
-            resolveArguments(directive.getArguments(), valueDescriptor, store);
-            directiveContainerTemplate.getDeclaresDirectives().add(valueDescriptor);
+            DirectiveValueDescriptor directiveValueDescriptor = store.create(DirectiveValueDescriptor.class);
+            directiveValueDescriptor.setOfType(directiveTypeDescriptor);
+            resolveArguments(directive.getArguments(), directiveTypeDescriptor, directiveValueDescriptor, store);
+            directiveContainerTemplate.getDeclaresDirectives().add(directiveValueDescriptor);
+        }
+    }
+
+    private void resolveArguments(List<Argument> arguments, DirectiveTypeDescriptor directiveTypeDescriptor, DirectiveValueDescriptor directiveValueDescriptor, Store store) throws IOException {
+        int index = 0;
+        for (Argument argument : arguments) {
+            ArgumentDescriptor argumentDescriptor = createNamedElement(argument, ArgumentDescriptor.class, store);
+            InputValueDescriptor inputValueDescriptor = directiveTypeDescriptor.resolveInputValue(argument.getName());
+            argumentDescriptor.setInputValue(inputValueDescriptor);
+            argumentDescriptor.setIndex(index);
+            index++;
+            Value value = argument.getValue();
+            Object argumentValue;
+            if (value instanceof ScalarValue<?>) {
+                argumentValue = getScalarValue((ScalarValue) argument.getValue());
+            } else if (value instanceof EnumValue) {
+                argumentValue = ((EnumValue) value).getName();
+            } else {
+                throw new IOException("Unsupported argument value type " + value);
+            }
+            argumentDescriptor.setValue(argumentValue);
+            directiveValueDescriptor.getHasArguments().add(argumentDescriptor);
         }
     }
 
@@ -117,26 +139,6 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
             resolveInputValues(fieldDefinition.getInputValueDefinitions(), fieldDescriptor, namedElementResolver, store);
             fieldContainerTemplate.getFields().add(fieldDescriptor);
             processDirectives(fieldDefinition, fieldDescriptor, namedElementResolver, store);
-        }
-    }
-
-    private void resolveArguments(List<Argument> arguments, DirectiveValueDescriptor directiveValueDescriptor, Store store) throws IOException {
-        int index = 0;
-        for (Argument argument : arguments) {
-            ArgumentDescriptor argumentDescriptor = createNamedElement(argument, ArgumentDescriptor.class, store);
-            argumentDescriptor.setIndex(index);
-            index++;
-            Value value = argument.getValue();
-            Object argumentValue;
-            if (value instanceof ScalarValue<?>) {
-                argumentValue = getScalarValue((ScalarValue) argument.getValue());
-            } else if (value instanceof EnumValue) {
-                argumentValue = ((EnumValue) value).getName();
-            } else {
-                throw new IOException("Unsupported argument value type " + value);
-            }
-            argumentDescriptor.setValue(argumentValue);
-            directiveValueDescriptor.getHasArguments().add(argumentDescriptor);
         }
     }
 
