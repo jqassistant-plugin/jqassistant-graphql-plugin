@@ -7,7 +7,7 @@ import com.buschmais.xo.neo4j.api.annotation.Relation.Outgoing;
 import java.util.List;
 
 @Label
-public interface UnionTypeDescriptor extends TypeDescriptor {
+public interface UnionTypeDescriptor extends NamedTypeDescriptor {
 
     @Relation
     @Outgoing

@@ -48,11 +48,12 @@ type Person implements Versioned @mine {
     age: Int
     gender: Gender
     version: Long
+    groups: [Group!]! @relation(name:"HAS_MEMBER", direction:IN)
 }
 
 type Group implements Versioned {
     name: ID!
-    members: [Person!]!
+    members: [Person!]! @relation(name:"HAS_MEMBER", direction:OUT)
     version: Long
 }
 

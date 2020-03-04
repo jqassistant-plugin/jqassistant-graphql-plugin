@@ -5,60 +5,10 @@ import com.buschmais.jqassistant.core.scanner.api.Scope;
 import com.buschmais.jqassistant.core.store.api.Store;
 import com.buschmais.jqassistant.core.store.api.model.Descriptor;
 import com.buschmais.jqassistant.plugin.common.api.scanner.AbstractScannerPlugin;
-import graphql.language.Argument;
-import graphql.language.BooleanValue;
-import graphql.language.Directive;
-import graphql.language.DirectiveDefinition;
-import graphql.language.DirectivesContainer;
-import graphql.language.EnumTypeDefinition;
-import graphql.language.EnumValue;
-import graphql.language.EnumValueDefinition;
-import graphql.language.FieldDefinition;
-import graphql.language.FloatValue;
-import graphql.language.InputObjectTypeDefinition;
-import graphql.language.InputValueDefinition;
-import graphql.language.IntValue;
-import graphql.language.InterfaceTypeDefinition;
-import graphql.language.ListType;
-import graphql.language.NamedNode;
-import graphql.language.NonNullType;
-import graphql.language.ObjectTypeDefinition;
-import graphql.language.ScalarTypeDefinition;
-import graphql.language.ScalarValue;
-import graphql.language.StringValue;
-import graphql.language.Type;
-import graphql.language.TypeDefinition;
-import graphql.language.TypeName;
-import graphql.language.UnionTypeDefinition;
+import graphql.language.*;
 import graphql.schema.idl.TypeDefinitionRegistry;
 import lombok.extern.slf4j.Slf4j;
-import org.jqassistant.contrib.plugin.graphql.api.model.ArgumentDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.DirectiveContainerTemplate;
-import org.jqassistant.contrib.plugin.graphql.api.model.DirectiveTypeDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.DirectiveValueDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.EnumTypeDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.EnumValueDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.FieldContainerTemplate;
-import org.jqassistant.contrib.plugin.graphql.api.model.FieldDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.FieldOfTypeDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.InputFieldDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.InputObjectTypeDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.InputValueContainerTemplate;
-import org.jqassistant.contrib.plugin.graphql.api.model.InputValueDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.InputValueOfTypeDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.InterfaceTypeDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.ListTypeDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.NamedElementDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.ObjectTypeDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.OfElementTypeDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.RequiredTemplate;
-import org.jqassistant.contrib.plugin.graphql.api.model.ScalarTypeDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.ScalarValueDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.SchemaDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.TypeDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.UnionDeclaresTypeDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.UnionTypeDescriptor;
-import org.jqassistant.contrib.plugin.graphql.api.model.ValueDescriptor;
+import org.jqassistant.contrib.plugin.graphql.api.model.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -81,42 +31,42 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
             resolveInputValues(directiveDefinition.getInputValueDefinitions(), directiveTypeDescriptor, namedElementResolver, store);
         }
         for (TypeDefinition<?> typeDefinition : typeDefinitionRegistry.types().values()) {
-            TypeDescriptor typeDescriptor;
+            NamedTypeDescriptor namedTypeDescriptor;
             if (typeDefinition instanceof EnumTypeDefinition) {
-                typeDescriptor = process((EnumTypeDefinition) typeDefinition, namedElementResolver, store);
+                namedTypeDescriptor = process((EnumTypeDefinition) typeDefinition, namedElementResolver, store);
             } else if (typeDefinition instanceof ScalarTypeDefinition) {
-                typeDescriptor = process((ScalarTypeDefinition) typeDefinition, namedElementResolver, store);
+                namedTypeDescriptor = process((ScalarTypeDefinition) typeDefinition, namedElementResolver, store);
             } else if (typeDefinition instanceof ObjectTypeDefinition) {
-                typeDescriptor = process((ObjectTypeDefinition) typeDefinition, namedElementResolver, store);
+                namedTypeDescriptor = process((ObjectTypeDefinition) typeDefinition, namedElementResolver, store);
             } else if (typeDefinition instanceof InputObjectTypeDefinition) {
-                typeDescriptor = process((InputObjectTypeDefinition) typeDefinition, namedElementResolver, store);
+                namedTypeDescriptor = process((InputObjectTypeDefinition) typeDefinition, namedElementResolver, store);
             } else if (typeDefinition instanceof InterfaceTypeDefinition) {
-                typeDescriptor = process((InterfaceTypeDefinition) typeDefinition, namedElementResolver, store);
+                namedTypeDescriptor = process((InterfaceTypeDefinition) typeDefinition, namedElementResolver, store);
             } else if (typeDefinition instanceof UnionTypeDefinition) {
-                typeDescriptor = process((UnionTypeDefinition) typeDefinition, namedElementResolver, store);
+                namedTypeDescriptor = process((UnionTypeDefinition) typeDefinition, namedElementResolver, store);
             } else {
                 throw new IOException("Unsupported GraphQL type " + typeDefinition);
             }
-            processDirectives(typeDefinition, typeDescriptor, namedElementResolver, store);
+            processDirectives(typeDefinition, namedTypeDescriptor, namedElementResolver, store);
         }
         return schema;
     }
 
     private void processDirectives(DirectivesContainer<?> directivesContainer, DirectiveContainerTemplate directiveContainerTemplate, NamedElementResolver namedElementResolver, Store store) throws IOException {
         for (Directive directive : directivesContainer.getDirectives()) {
-            DirectiveTypeDescriptor ofTypeDescriptor = namedElementResolver.resolve(directive.getName(), DirectiveTypeDescriptor.class);
+            DirectiveTypeDescriptor directiveTypeDescriptor = namedElementResolver.resolve(directive.getName(), DirectiveTypeDescriptor.class);
             DirectiveValueDescriptor valueDescriptor = store.create(DirectiveValueDescriptor.class);
-            valueDescriptor.setOfType(ofTypeDescriptor);
+            valueDescriptor.setOfType(directiveTypeDescriptor);
             resolveArguments(directive.getArguments(), valueDescriptor, store);
             directiveContainerTemplate.getDeclaresDirectives().add(valueDescriptor);
         }
     }
 
-    private TypeDescriptor process(ScalarTypeDefinition type, NamedElementResolver namedElementResolver, Store store) {
+    private NamedTypeDescriptor process(ScalarTypeDefinition type, NamedElementResolver namedElementResolver, Store store) {
         return resolveNamedSchemaElement(type, ScalarTypeDescriptor.class, namedElementResolver);
     }
 
-    private TypeDescriptor process(EnumTypeDefinition type, NamedElementResolver namedElementResolver, Store store) throws IOException {
+    private NamedTypeDescriptor process(EnumTypeDefinition type, NamedElementResolver namedElementResolver, Store store) throws IOException {
         EnumTypeDescriptor enumTypeDescriptor = resolveNamedSchemaElement(type, EnumTypeDescriptor.class, namedElementResolver);
         for (EnumValueDefinition value : type.getEnumValueDefinitions()) {
             EnumValueDescriptor enumValueDescriptor = enumTypeDescriptor.resolveValue(value.getName());
@@ -128,7 +78,7 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
         return enumTypeDescriptor;
     }
 
-    private TypeDescriptor process(ObjectTypeDefinition type, NamedElementResolver namedElementResolver, Store store) throws IOException {
+    private NamedTypeDescriptor process(ObjectTypeDefinition type, NamedElementResolver namedElementResolver, Store store) throws IOException {
         ObjectTypeDescriptor objectTypeDescriptor = resolveNamedSchemaElement(type, ObjectTypeDescriptor.class, namedElementResolver);
         for (Type interfaceType : type.getImplements()) {
             InterfaceTypeDescriptor interfaceTypeDescriptor = namedElementResolver.resolve(((TypeName) interfaceType).getName(), InterfaceTypeDescriptor.class);
@@ -138,18 +88,18 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
         return objectTypeDescriptor;
     }
 
-    private TypeDescriptor process(InterfaceTypeDefinition type, NamedElementResolver namedElementResolver, Store store) throws IOException {
+    private NamedTypeDescriptor process(InterfaceTypeDefinition type, NamedElementResolver namedElementResolver, Store store) throws IOException {
         InterfaceTypeDescriptor interfaceTypeDescriptor = resolveNamedSchemaElement(type, InterfaceTypeDescriptor.class, namedElementResolver);
         processFieldDefinitions(type.getFieldDefinitions(), interfaceTypeDescriptor, namedElementResolver, store);
         return interfaceTypeDescriptor;
     }
 
-    private TypeDescriptor process(UnionTypeDefinition type, NamedElementResolver namedElementResolver, Store store) {
+    private NamedTypeDescriptor process(UnionTypeDefinition type, NamedElementResolver namedElementResolver, Store store) {
         UnionTypeDescriptor unionTypeDescriptor = resolveNamedSchemaElement(type, UnionTypeDescriptor.class, namedElementResolver);
         int index = 0;
         for (Type memberType : type.getMemberTypes()) {
-            TypeDescriptor typeDescriptor = namedElementResolver.resolve(((TypeName) memberType).getName(), TypeDescriptor.class);
-            UnionDeclaresTypeDescriptor unionDeclaresType = store.create(unionTypeDescriptor, UnionDeclaresTypeDescriptor.class, typeDescriptor);
+            NamedTypeDescriptor namedTypeDescriptor = namedElementResolver.resolve(((TypeName) memberType).getName(), NamedTypeDescriptor.class);
+            UnionDeclaresTypeDescriptor unionDeclaresType = store.create(unionTypeDescriptor, UnionDeclaresTypeDescriptor.class, namedTypeDescriptor);
             unionDeclaresType.setIndex(index);
             index++;
         }
@@ -176,8 +126,16 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
             ArgumentDescriptor argumentDescriptor = createNamedElement(argument, ArgumentDescriptor.class, store);
             argumentDescriptor.setIndex(index);
             index++;
-            Object scalarValue = getScalarValue((ScalarValue) argument.getValue());
-            argumentDescriptor.setValue(scalarValue);
+            Value value = argument.getValue();
+            Object argumentValue;
+            if (value instanceof ScalarValue<?>) {
+                argumentValue = getScalarValue((ScalarValue) argument.getValue());
+            } else if (value instanceof EnumValue) {
+                argumentValue = ((EnumValue) value).getName();
+            } else {
+                throw new IOException("Unsupported argument value type " + value);
+            }
+            argumentDescriptor.setValue(argumentValue);
             directiveValueDescriptor.getHasArguments().add(argumentDescriptor);
         }
     }
@@ -196,7 +154,7 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
         }
     }
 
-    private ValueDescriptor createValue(TypeDescriptor type, Object value, NamedElementResolver namedElementResolver, Store store) throws IOException {
+    private ValueDescriptor createValue(NamedTypeDescriptor type, Object value, NamedElementResolver namedElementResolver, Store store) throws IOException {
         if (value == null) {
             return null;
         } else if (value instanceof ScalarValue<?>) {
@@ -212,7 +170,7 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
     }
 
 
-    private TypeDescriptor process(InputObjectTypeDefinition type, NamedElementResolver namedElementResolver, Store store) throws IOException {
+    private NamedTypeDescriptor process(InputObjectTypeDefinition type, NamedElementResolver namedElementResolver, Store store) throws IOException {
         InputObjectTypeDescriptor inputObjectTypeDescriptor = resolveNamedSchemaElement(type, InputObjectTypeDescriptor.class, namedElementResolver);
         for (InputValueDefinition inputValueDefinition : type.getInputValueDefinitions()) {
             InputFieldDescriptor inputFieldDescriptor = createNamedElement(inputValueDefinition, InputFieldDescriptor.class, store);
@@ -253,7 +211,7 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
             resolveFieldType(listTypeDescriptor, OfElementTypeDescriptor.class, elementType, namedElementResolver, store);
             return store.create(from, relationType, listTypeDescriptor);
         } else if (type instanceof TypeName) {
-            TypeDescriptor to = namedElementResolver.resolve(((TypeName) type).getName(), TypeDescriptor.class);
+            NamedTypeDescriptor to = namedElementResolver.resolve(((TypeName) type).getName(), NamedTypeDescriptor.class);
             return store.create(from, relationType, to);
         }
         throw new IOException("Unsupported field type " + type);

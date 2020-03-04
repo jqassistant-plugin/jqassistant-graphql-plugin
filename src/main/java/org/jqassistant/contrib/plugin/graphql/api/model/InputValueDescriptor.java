@@ -1,6 +1,7 @@
 package org.jqassistant.contrib.plugin.graphql.api.model;
 
 import com.buschmais.xo.neo4j.api.annotation.Relation;
+import com.buschmais.xo.neo4j.api.annotation.Relation.Outgoing;
 
 public interface InputValueDescriptor extends GraphQLDescriptor, InputDescriptor, ValueDescriptor, NamedElementDescriptor, DirectiveContainerTemplate {
 
@@ -9,13 +10,8 @@ public interface InputValueDescriptor extends GraphQLDescriptor, InputDescriptor
     void setIndex(int index);
 
     @Relation
-    @Relation.Outgoing
+    @Outgoing
     InputValueOfTypeDescriptor getOfType();
-
-    @Relation("HAS_VALUE")
-    ValueDescriptor getValue();
-
-    void setValue(ValueDescriptor valueDescriptor);
 
     @Relation("HAS_DEFAULT_VALUE")
     ValueDescriptor getDefaultValue();

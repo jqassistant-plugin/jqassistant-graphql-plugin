@@ -12,6 +12,6 @@ public interface InputValueOfTypeDescriptor extends RequiredTemplate, Descriptor
     InputValueDescriptor getInputValue();
 
     @Incoming
-    TypeDescriptor getType();
+    NamedTypeDescriptor getType();
 
 }

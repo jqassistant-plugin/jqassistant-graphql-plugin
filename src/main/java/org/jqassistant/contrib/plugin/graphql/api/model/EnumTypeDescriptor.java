@@ -7,7 +7,7 @@ import com.buschmais.xo.neo4j.api.annotation.Relation;
 
 import java.util.List;
 
-public interface EnumTypeDescriptor extends TypeDescriptor, EnumDescriptor {
+public interface EnumTypeDescriptor extends NamedTypeDescriptor, EnumDescriptor {
 
     @Relation("DECLARES_VALUE")
     List<EnumValueDescriptor> getDeclaresValues();
