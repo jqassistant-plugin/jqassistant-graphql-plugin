@@ -8,6 +8,7 @@
         <class>org.jqassistant.contrib.plugin.graphql.api.model.SchemaUrlDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.NamedElementDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.DirectiveTypeDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.graphql.api.model.DirectiveLocationDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.DirectiveValueDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.EnumTypeDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.EnumValueDescriptor</class>

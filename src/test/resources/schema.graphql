@@ -1,4 +1,4 @@
-directive @mine(comment: String) on QUERY
+directive @mine(comment: String, coolness: Coolness) on QUERY
     | MUTATION
     | FIELD
     | FRAGMENT_DEFINITION
@@ -16,17 +16,25 @@ directive @mine(comment: String) on QUERY
     | INPUT_OBJECT
     | INPUT_FIELD_DEFINITION
 
-scalar Long @mine(comment: "My Long scalar")
+"Custom Scalar Type"
+scalar Long @mine(comment: "My Long scalar", coolness: HIGH)
+
+enum Coolness {
+    LOW,
+    HIGH
+}
 
 schema @mine {
     query: Query
     mutation: Mutation
 }
 
+"Defines Mutations"
 type Mutation {
     person(name:ID, age: Int): Person
 }
 
+"Defines Queries"
 type Query @mine(comment: "My Query Type") {
     person : [Person!]! @mine @deprecated(reason: "Too expensive")
     personByName(name:ID! @mine) : Person @mine
