@@ -8,6 +8,7 @@ import com.buschmais.jqassistant.plugin.common.api.scanner.filesystem.FileResour
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
 import org.jqassistant.contrib.plugin.graphql.api.model.SchemaDescriptor;
+import org.jqassistant.contrib.plugin.graphql.api.model.SchemaFileDescriptor;
 
 import java.io.IOException;
 
@@ -29,7 +30,7 @@ public class GraphQLSchemaFileScannerPlugin extends AbstractGraphQLSchemaScanner
     @Override
     protected SchemaDescriptor getSchemaDescriptor(String path, ScannerContext context) {
         FileDescriptor fileDescriptor = context.peek(FileDescriptor.class);
-        return context.getStore().addDescriptorType(fileDescriptor, SchemaDescriptor.class);
+        return context.getStore().addDescriptorType(fileDescriptor, SchemaFileDescriptor.class);
     }
 
     @Override

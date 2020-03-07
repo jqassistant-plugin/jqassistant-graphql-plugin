@@ -4,7 +4,7 @@
                     name="GraphQL">
     <description>Provides a scanner for GraphQL schemas.</description>
     <model>
-        <class>org.jqassistant.contrib.plugin.graphql.api.model.SchemaDescriptor</class>
+        <class>org.jqassistant.contrib.plugin.graphql.api.model.SchemaFileDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.SchemaUrlDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.NamedElementDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.DirectiveTypeDescriptor</class>
