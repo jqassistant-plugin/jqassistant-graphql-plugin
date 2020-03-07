@@ -27,12 +27,9 @@ enum Coolness {
 schema @mine {
     query: Query
     mutation: Mutation
+    subscription: Subscription
 }
 
-"Defines Mutations"
-type Mutation {
-    person(name:ID, age: Int): Person
-}
 
 "Defines Queries"
 type Query @mine(comment: "My Query Type") {
@@ -40,6 +37,16 @@ type Query @mine(comment: "My Query Type") {
     personByName(name:ID! @mine) : Person @mine
     personByAge(age:Int = 42) : Person @mine
     personByGender(gender:Gender = FEMALE) : Person @mine
+}
+
+"Defines Mutations"
+type Mutation {
+    person(name:ID, age: Int): Person
+}
+
+"Defines Subscriptions"
+type Subscription {
+    newPerson: Person
 }
 
 enum Gender @mine {

@@ -13,7 +13,7 @@ public interface InputValueContainerTemplate {
     List<InputValueDescriptor> getInputValues();
 
     @ResultOf
-    @Cypher("MATCH (container) WHERE id(container)={this} MERGE (container)-[:DECLARES_INPUT_VALUE]->(inputValue:GraphQL:Named:Input:Value{name:{name}}) RETURN inputValue")
+    @Cypher("MATCH (container) WHERE id(container)={this} MERGE (container)-[:DECLARES_INPUT_VALUE]->(inputValue:GraphQL:Input:Value{name:{name}}) RETURN inputValue")
     InputValueDescriptor resolveInputValue(@Parameter("name") String name);
 
 

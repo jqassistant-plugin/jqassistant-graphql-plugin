@@ -1,11 +1,12 @@
 package org.jqassistant.contrib.plugin.graphql.api.model;
 
+import com.buschmais.jqassistant.plugin.common.api.model.NamedDescriptor;
 import com.buschmais.xo.api.annotation.ResultOf;
 import com.buschmais.xo.neo4j.api.annotation.Cypher;
 import com.buschmais.xo.neo4j.api.annotation.Relation;
 import com.buschmais.xo.neo4j.api.annotation.Relation.Outgoing;
 
-public interface InputValueDescriptor extends GraphQLDescriptor, InputDescriptor, ValueDescriptor, NamedElementDescriptor, DirectiveContainerTemplate {
+public interface InputValueDescriptor extends GraphQLDescriptor, InputDescriptor, ValueDescriptor, NamedDescriptor, DescriptionTemplate, DirectiveContainerTemplate {
 
     int getIndex();
 

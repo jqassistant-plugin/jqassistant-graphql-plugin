@@ -22,7 +22,7 @@ public class GraphQLSchemaFileScannerPluginIT extends AbstractPluginIT {
         assertThat(schemaFileDescriptor).isNotNull();
         assertThat(schemaFileDescriptor.getFileName()).isEqualTo("/schema.graphql");
 
-        List<DirectiveTypeDescriptor> directives = query("MATCH (schema:GraphQL:Schema)-[:DECLARES_ELEMENT]->(directive:GraphQL:Directive:Type:Named{name:'mine'}) RETURN directive").getColumn("directive");
+        List<DirectiveTypeDescriptor> directives = query("MATCH (schema:GraphQL:Schema)-[:DECLARES]->(directive:GraphQL:Directive:Type:Named{name:'mine'}) RETURN directive").getColumn("directive");
         assertThat(directives).hasSize(1);
 
         DirectiveTypeDescriptor mineDirective = directives.get(0);
