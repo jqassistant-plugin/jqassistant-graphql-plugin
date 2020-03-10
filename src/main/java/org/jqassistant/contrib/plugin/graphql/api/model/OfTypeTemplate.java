@@ -1,6 +1,8 @@
 package org.jqassistant.contrib.plugin.graphql.api.model;
 
-public interface RequiredTemplate {
+public interface OfTypeTemplate {
+
+    TypeDescriptor getType();
 
     boolean isRequired();
 

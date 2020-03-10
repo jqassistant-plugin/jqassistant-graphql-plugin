@@ -6,12 +6,13 @@ import com.buschmais.xo.neo4j.api.annotation.Relation.Incoming;
 import com.buschmais.xo.neo4j.api.annotation.Relation.Outgoing;
 
 @Relation("OF_TYPE")
-public interface FieldOfTypeDescriptor extends RequiredTemplate, Descriptor {
+public interface FieldOfTypeDescriptor extends OfTypeTemplate, Descriptor {
 
     @Outgoing
     FieldDescriptor getField();
 
     @Incoming
+    @Override
     TypeDescriptor getType();
 
 }

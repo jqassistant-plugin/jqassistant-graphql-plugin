@@ -13,4 +13,5 @@ public interface DirectiveValueDescriptor extends ValueDescriptor, DirectiveDesc
 
     @Relation("HAS_ARGUMENT")
     List<ArgumentDescriptor> getHasArguments();
+
 }

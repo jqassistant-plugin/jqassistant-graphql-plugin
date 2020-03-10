@@ -30,10 +30,9 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
         SchemaDescriptor schema = scanner.getContext().peek(SchemaDescriptor.class);
         Store store = scanner.getContext().getStore();
         try (NamedElementResolver namedElementResolver = new NamedElementResolver(schema, store)) {
-
             processDirectiveDefinitions(typeDefinitionRegistry.getDirectiveDefinitions().values(), namedElementResolver, store);
             for (ScalarTypeDefinition scalarTypeDefinition : typeDefinitionRegistry.scalars().values()) {
-                NamedTypeDescriptor namedTypeDescriptor = process(scalarTypeDefinition, namedElementResolver, store);
+                NamedTypeDescriptor namedTypeDescriptor = process(scalarTypeDefinition, namedElementResolver);
                 processDirectives(scalarTypeDefinition, namedTypeDescriptor, namedElementResolver, store);
             }
             for (TypeDefinition<?> typeDefinition : typeDefinitionRegistry.types().values()) {
@@ -101,7 +100,7 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
         }
     }
 
-    private NamedTypeDescriptor process(ScalarTypeDefinition type, NamedElementResolver namedElementResolver, Store store) {
+    private NamedTypeDescriptor process(ScalarTypeDefinition type, NamedElementResolver namedElementResolver) {
         ScalarTypeDescriptor scalarTypeDescriptor = namedElementResolver.declare(type, ScalarTypeDescriptor.class);
         processDescription(type.getDescription(), scalarTypeDescriptor);
         return scalarTypeDescriptor;
@@ -210,7 +209,7 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
     /**
      * (:Field)-[:OF_TYPE{required:true}]->(:List)-[:OF_ELEMENT_TYPE{required:true}]->(:Type)
      */
-    private <R extends RequiredTemplate & Descriptor> R resolveFieldType(Descriptor from, Class<R> relationType, Type type, NamedElementResolver namedElementResolver, Store store) throws IOException {
+    private <R extends OfTypeTemplate & Descriptor> R resolveFieldType(Descriptor from, Class<R> relationType, Type type, NamedElementResolver namedElementResolver, Store store) throws IOException {
         if (type instanceof NonNullType) {
             NonNullType nonNullType = (NonNullType) type;
             Type wrappedType = nonNullType.getType();

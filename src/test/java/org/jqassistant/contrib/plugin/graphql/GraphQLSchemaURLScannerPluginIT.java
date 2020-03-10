@@ -1,7 +1,5 @@
 package org.jqassistant.contrib.plugin.graphql;
 
-import com.buschmais.jqassistant.plugin.common.test.AbstractPluginIT;
-import org.assertj.core.api.Assertions;
 import org.jqassistant.contrib.plugin.graphql.api.model.SchemaUrlDescriptor;
 import org.jqassistant.contrib.plugin.graphql.scope.GraphQLScope;
 import org.junit.jupiter.api.Test;
@@ -15,21 +13,29 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-public class GraphQLSchemaURLScannerPluginIT extends AbstractPluginIT {
+public class GraphQLSchemaURLScannerPluginIT extends AbstractGraphQLSchemaScannerPluginIT<SchemaUrlDescriptor> {
 
     @LocalServerPort
     private int port;
 
+    @Override
+    protected SchemaUrlDescriptor scan() throws MalformedURLException {
+        String url = getUrl();
+        return getScanner().scan(new URL(url), url, GraphQLScope.SCHEMA);
+    }
+
     @Test
-    @TestStore
-    public void scanURL() throws MalformedURLException {
+    public void schemaURL() {
         store.beginTransaction();
-        String url = "http://localhost:" + port + "/graphql/";
-        SchemaUrlDescriptor schemaUrlDescriptor = getScanner().scan(new URL(url), url, GraphQLScope.SCHEMA);
-        assertThat(schemaUrlDescriptor).isNotNull();
-        assertThat(schemaUrlDescriptor.getURL()).isEqualTo(url);
+        assertThat(schemaDescriptor).isNotNull();
+        assertThat(schemaDescriptor.getURL()).isEqualTo(getUrl());
         store.commitTransaction();
     }
+
+    private String getUrl() {
+        return "http://localhost:" + port + "/graphql/";
+    }
+
 }
 
 

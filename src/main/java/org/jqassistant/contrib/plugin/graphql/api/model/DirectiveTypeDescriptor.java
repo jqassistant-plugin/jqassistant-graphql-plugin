@@ -9,5 +9,4 @@ public interface DirectiveTypeDescriptor extends NamedTypeDescriptor, DirectiveD
     @Relation("DECLARES_LOCATION")
     List<DirectiveLocationDescriptor> getDeclaresLocations();
 
-
 }

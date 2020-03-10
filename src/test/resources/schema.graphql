@@ -1,3 +1,9 @@
+schema @mine {
+    query: Query
+    mutation: Mutation
+    subscription: Subscription
+}
+
 directive @mine(comment: String, coolness: Coolness) on QUERY
     | MUTATION
     | FIELD
@@ -20,23 +26,16 @@ directive @mine(comment: String, coolness: Coolness) on QUERY
 scalar Long @mine(comment: "My Long scalar", coolness: HIGH)
 
 enum Coolness {
-    LOW,
+    LOW @mine,
     HIGH
 }
 
-schema @mine {
-    query: Query
-    mutation: Mutation
-    subscription: Subscription
-}
-
-
 "Defines Queries"
 type Query @mine(comment: "My Query Type") {
-    person : [Person!]! @mine @deprecated(reason: "Too expensive")
-    personByName(name:ID! @mine) : Person @mine
-    personByAge(age:Int = 42) : Person @mine
-    personByGender(gender:Gender = FEMALE) : Person @mine
+    person : [Person!]! @deprecated(reason: "Too expensive")
+    personByName(name:ID! @mine) : Person
+    personByAge(age:Int = 42) : [Person!]
+    personByGender(gender:Gender = FEMALE) : [Person!]
 }
 
 "Defines Mutations"
@@ -55,21 +54,21 @@ enum Gender @mine {
 }
 
 interface Versioned @mine {
-    version: Long
+    version: Long!
 }
 
 type Person implements Versioned @mine {
     name: ID!
     age: Int
     gender: Gender
-    version: Long
+    version: Long!
     groups: [Group!]! @relation(name:"HAS_MEMBER", direction:IN)
 }
 
 type Group implements Versioned {
     name: ID!
     members: [Person!]! @relation(name:"HAS_MEMBER", direction:OUT)
-    version: Long
+    version: Long!
 }
 
 union Everything @mine = Person | Group

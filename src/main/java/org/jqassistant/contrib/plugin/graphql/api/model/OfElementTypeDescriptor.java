@@ -6,12 +6,13 @@ import com.buschmais.xo.neo4j.api.annotation.Relation.Incoming;
 import com.buschmais.xo.neo4j.api.annotation.Relation.Outgoing;
 
 @Relation("OF_ELEMENT_TYPE")
-public interface OfElementTypeDescriptor extends RequiredTemplate, Descriptor {
+public interface OfElementTypeDescriptor extends OfTypeTemplate, Descriptor {
 
     @Outgoing
     ListTypeDescriptor getListType();
 
     @Incoming
-    TypeDescriptor getElementType();
+    @Override
+    TypeDescriptor getType();
 
 }
