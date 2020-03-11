@@ -1,0 +1,6 @@
+ifndef::jqa-in-manual[== Version 1.9.0]
+ifdef::jqa-in-manual[== GraphQL Plugin 1.9.0]
+
+- Added scanners for GraphQL schema files and URL introspection
+
+

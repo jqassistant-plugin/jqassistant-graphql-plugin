@@ -1,0 +1,6 @@
+= jQAssistant GraphQL Plugin Release Notes
+
+include::1.9.0.adoc[]
+
+
+
