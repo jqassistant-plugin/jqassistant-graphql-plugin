@@ -65,6 +65,11 @@ type Person implements Versioned @mine {
     groups: [Group!]! @relation(name:"HAS_MEMBER", direction:IN)
 }
 
+input _Person {
+    name: ID
+    name_in: [ID!]
+}
+
 type Group implements Versioned {
     name: ID!
     members: [Person!]! @relation(name:"HAS_MEMBER", direction:OUT)

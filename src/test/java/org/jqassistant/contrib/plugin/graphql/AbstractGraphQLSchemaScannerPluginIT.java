@@ -84,6 +84,22 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
     }
 
     @Test
+    public void schemaDeclaresInputObjectType() {
+        store.beginTransaction();
+        List<InputObjectTypeDescriptor> inputObjectTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(inputObject:GraphQL:Input:Object:Type:Named{name:'_Person'}) RETURN inputObject").getColumn("inputObject");
+        assertThat(inputObjectTypeDescriptors).hasSize(1);
+        InputObjectTypeDescriptor inputObjectTypeDescriptor = inputObjectTypeDescriptors.get(0);
+        // declared fields
+        Map<String, FieldDescriptor> fieldDescriptors = asMap(inputObjectTypeDescriptor.getFields());
+        assertThat(fieldDescriptors).hasSize(2);
+        verifyField(fieldDescriptors.get("name"), false, "ID");
+        verifyField(fieldDescriptors.get("name_in"), false, ofElementType -> {
+            verifyOfType(ofElementType, true, "ID");
+        });
+    }
+
+
+    @Test
     public void schemaDeclaresQueryTypeWithInputFields() {
         store.beginTransaction();
         List<ObjectTypeDescriptor> queryTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(query:GraphQL:Object:Type:Named{name:'Query'}) RETURN query").getColumn("query");

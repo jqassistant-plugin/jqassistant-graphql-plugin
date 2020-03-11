@@ -60,7 +60,7 @@ public class GraphQLSchemaFileScannerPluginIT extends AbstractGraphQLSchemaScann
     }
 
     @Test
-    public void typeDeclaresDirective() {
+    public void scalarTypeDeclaresDirective() {
         store.beginTransaction();
         List<DirectiveValueDescriptor> directiveValueDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(:GraphQL:Scalar:Type:Named{name:'Long'})-[:DECLARES_DIRECTIVE]->(directive:GraphQL:Directive:Value) RETURN directive").getColumn("directive");
         assertThat(directiveValueDescriptors).hasSize(1);
