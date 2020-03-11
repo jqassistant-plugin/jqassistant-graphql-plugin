@@ -6,7 +6,7 @@ import com.buschmais.xo.neo4j.api.annotation.Cypher;
 import com.buschmais.xo.neo4j.api.annotation.Relation;
 import com.buschmais.xo.neo4j.api.annotation.Relation.Outgoing;
 
-public interface InputValueDescriptor extends GraphQLDescriptor, InputDescriptor, ValueDescriptor, NamedDescriptor, DescriptionTemplate, DirectiveContainerTemplate {
+public interface InputValueDescriptor extends GraphQLDescriptor, InputDescriptor, ValueDescriptor, NamedDescriptor, DescriptionTemplate, DirectiveContainerTemplate, SourceLocationTemplate {
 
     int getIndex();
 

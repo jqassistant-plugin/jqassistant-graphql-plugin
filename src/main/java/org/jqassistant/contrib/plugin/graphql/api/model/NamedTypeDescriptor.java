@@ -5,7 +5,7 @@ import com.buschmais.xo.neo4j.api.annotation.Relation.Incoming;
 
 import java.util.List;
 
-public interface NamedTypeDescriptor extends TypeDescriptor, NamedElementDescriptor, DirectiveContainerTemplate {
+public interface NamedTypeDescriptor extends TypeDescriptor, NamedElementDescriptor, DirectiveContainerTemplate, SourceLocationTemplate {
 
     @Relation
     @Incoming

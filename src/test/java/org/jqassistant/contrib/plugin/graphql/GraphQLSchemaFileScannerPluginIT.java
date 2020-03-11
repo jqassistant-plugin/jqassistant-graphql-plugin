@@ -1,13 +1,17 @@
 package org.jqassistant.contrib.plugin.graphql;
 
 import com.buschmais.jqassistant.core.scanner.api.DefaultScope;
+import graphql.schema.GraphQLScalarType;
+import graphql.schema.idl.ScalarInfo;
 import org.jqassistant.contrib.plugin.graphql.api.model.*;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GraphQLSchemaFileScannerPluginIT extends AbstractGraphQLSchemaScannerPluginIT<SchemaFileDescriptor> {
@@ -98,4 +102,37 @@ public class GraphQLSchemaFileScannerPluginIT extends AbstractGraphQLSchemaScann
         store.commitTransaction();
     }
 
+    @Test
+    public void typeHasSourceLocation() {
+        Set<String> standardScalarNames = ScalarInfo.STANDARD_SCALARS.stream().map(GraphQLScalarType::getName).collect(toSet());
+        store.beginTransaction();
+        List<NamedTypeDescriptor> namedTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(type:GraphQL:Named:Type) RETURN type").getColumn("type");
+        namedTypeDescriptors.stream().filter(namedTypeDescriptor -> !standardScalarNames.contains(namedTypeDescriptor.getName())).forEach(namedTypeDescriptor -> verifySourceLocation(namedTypeDescriptor));
+        store.commitTransaction();
+    }
+
+    @Test
+    public void fieldHasSourceLocation() {
+        store.beginTransaction();
+        List<FieldDescriptor> fieldDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(:GraphQL:Named:Type)-[:DECLARES_FIELD]->(field:GraphQL:Field) RETURN field").getColumn("field");
+        verifySourceLocations(fieldDescriptors);
+        store.commitTransaction();
+    }
+
+    @Test
+    public void inputValueHasSourceLocation() {
+        store.beginTransaction();
+        List<InputValueDescriptor> inputValueDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(:GraphQL:Named:Type)-[:DECLARES_FIELD]->(:GraphQL:Field)-[:DECLARES_INPUT_VALUE]->(inputValue:GraphQL:Input:Value) RETURN inputValue").getColumn("inputValue");
+        verifySourceLocations(inputValueDescriptors);
+        store.commitTransaction();
+    }
+
+    private void verifySourceLocations(List<? extends SourceLocationTemplate> sourceLocationTemplates) {
+        sourceLocationTemplates.stream().forEach(sourceLocationTemplate -> verifySourceLocation(sourceLocationTemplate));
+    }
+
+    private void verifySourceLocation(SourceLocationTemplate sourceLocationTemplate) {
+        assertThat(sourceLocationTemplate.getLine()).isNotNull();
+        assertThat(sourceLocationTemplate.getColumn()).isNotNull();
+    }
 }

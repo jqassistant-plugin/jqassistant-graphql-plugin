@@ -34,6 +34,7 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
             for (ScalarTypeDefinition scalarTypeDefinition : typeDefinitionRegistry.scalars().values()) {
                 NamedTypeDescriptor namedTypeDescriptor = process(scalarTypeDefinition, namedElementResolver);
                 processDirectives(scalarTypeDefinition, namedTypeDescriptor, namedElementResolver, store);
+                processSourceLocation(scalarTypeDefinition, namedTypeDescriptor);
             }
             for (TypeDefinition<?> typeDefinition : typeDefinitionRegistry.types().values()) {
                 NamedTypeDescriptor namedTypeDescriptor;
@@ -50,6 +51,7 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
                 } else {
                     throw new IOException("Unsupported GraphQL type " + typeDefinition);
                 }
+                processSourceLocation(typeDefinition, namedTypeDescriptor);
                 processDirectives(typeDefinition, namedTypeDescriptor, namedElementResolver, store);
             }
         }
@@ -66,6 +68,7 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
                 DirectiveLocationDescriptor locationDescriptor = directiveLocations.computeIfAbsent(name, key -> store.create(DirectiveLocationDescriptor.class, d -> d.setName(name)));
                 directiveTypeDescriptor.getDeclaresLocations().add(locationDescriptor);
             }
+            processSourceLocation(directiveDefinition, directiveTypeDescriptor);
             processDescription(directiveDefinition.getDescription(), directiveTypeDescriptor);
         }
     }
@@ -156,6 +159,7 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
             resolveFieldType(fieldDescriptor, FieldOfTypeDescriptor.class, fieldDefinition.getType(), namedElementResolver, store);
             resolveInputValues(fieldDefinition.getInputValueDefinitions(), fieldDescriptor, namedElementResolver, store);
             fieldContainerTemplate.getFields().add(fieldDescriptor);
+            processSourceLocation(fieldDefinition, fieldDescriptor);
             processDirectives(fieldDefinition, fieldDescriptor, namedElementResolver, store);
         }
     }
@@ -202,8 +206,18 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
         return inputObjectTypeDescriptor;
     }
 
-    private <T extends NamedDescriptor> T createNamedDescriptor(NamedNode<?> namedNode, Class<T> type, Store store) {
-        return store.create(type, t -> t.setName(namedNode.getName()));
+    private <T extends NamedDescriptor & SourceLocationTemplate> T createNamedDescriptor(NamedNode<?> namedNode, Class<T> type, Store store) {
+        return store.create(type, t -> {
+            t.setName(namedNode.getName());
+            processSourceLocation(namedNode, t);
+        });
+    }
+
+    private void processSourceLocation(NamedNode<?> namedNode, SourceLocationTemplate sourceLocationTemplate) {
+        if (namedNode.getSourceLocation() != null) {
+            sourceLocationTemplate.setLine(namedNode.getSourceLocation().getLine());
+            sourceLocationTemplate.setColumn(namedNode.getSourceLocation().getColumn());
+        }
     }
 
     /**
