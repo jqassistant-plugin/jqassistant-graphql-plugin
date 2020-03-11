@@ -6,7 +6,6 @@
     <model>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.SchemaFileDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.SchemaUrlDescriptor</class>
-        <class>org.jqassistant.contrib.plugin.graphql.api.model.NamedElementDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.DirectiveTypeDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.DirectiveLocationDescriptor</class>
         <class>org.jqassistant.contrib.plugin.graphql.api.model.DirectiveValueDescriptor</class>

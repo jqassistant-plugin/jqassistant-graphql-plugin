@@ -13,6 +13,6 @@ public interface InputValueOfTypeDescriptor extends OfTypeTemplate, Descriptor {
 
     @Incoming
     @Override
-    NamedTypeDescriptor getType();
+    TypeDescriptor getType();
 
 }

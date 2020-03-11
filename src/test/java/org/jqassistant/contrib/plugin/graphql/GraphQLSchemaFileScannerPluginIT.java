@@ -33,7 +33,7 @@ public class GraphQLSchemaFileScannerPluginIT extends AbstractGraphQLSchemaScann
     @Test
     public void schemaDeclaresDirectiveType() {
         store.beginTransaction();
-        List<DirectiveTypeDescriptor> directives = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(directive:GraphQL:Directive:Type:Named{name:'mine'}) RETURN directive").getColumn("directive");
+        List<DirectiveTypeDescriptor> directives = query("MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(directive:GraphQL:Directive:Type{name:'mine'}) RETURN directive").getColumn("directive");
         assertThat(directives).hasSize(1);
         DirectiveTypeDescriptor mineDirective = directives.get(0);
         assertThat(mineDirective.getDeclaresLocations().stream().map(location -> location.getName())).containsExactlyInAnyOrder("QUERY",
@@ -62,7 +62,7 @@ public class GraphQLSchemaFileScannerPluginIT extends AbstractGraphQLSchemaScann
     @Test
     public void scalarTypeDeclaresDirective() {
         store.beginTransaction();
-        List<DirectiveValueDescriptor> directiveValueDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(:GraphQL:Scalar:Type:Named{name:'Long'})-[:DECLARES_DIRECTIVE]->(directive:GraphQL:Directive:Value) RETURN directive").getColumn("directive");
+        List<DirectiveValueDescriptor> directiveValueDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(:GraphQL:Scalar:Type{name:'Long'})-[:DECLARES_DIRECTIVE]->(directive:GraphQL:Directive:Value) RETURN directive").getColumn("directive");
         assertThat(directiveValueDescriptors).hasSize(1);
         verifyDirectiveValue(directiveValueDescriptors.get(0), "mine", argumentDescriptors -> {
             assertThat(argumentDescriptors).hasSize(2);
@@ -75,7 +75,7 @@ public class GraphQLSchemaFileScannerPluginIT extends AbstractGraphQLSchemaScann
     @Test
     public void enumValueDeclaresDirective() {
         store.beginTransaction();
-        List<DirectiveValueDescriptor> directiveValueDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(:GraphQL:Enum:Type:Named{name:'Coolness'})-[:DECLARES_VALUE]->(:GraphQL:Enum:Value{name:'LOW'})-[:DECLARES_DIRECTIVE]->(directive:GraphQL:Directive:Value) RETURN directive").getColumn("directive");
+        List<DirectiveValueDescriptor> directiveValueDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(:GraphQL:Enum:Type{name:'Coolness'})-[:DECLARES_VALUE]->(:GraphQL:Enum:Value{name:'LOW'})-[:DECLARES_DIRECTIVE]->(directive:GraphQL:Directive:Value) RETURN directive").getColumn("directive");
         assertThat(directiveValueDescriptors).hasSize(1);
         verifyDirectiveValue(directiveValueDescriptors.get(0), "mine", argumentDescriptors -> assertThat(argumentDescriptors).isEmpty());
         store.commitTransaction();
@@ -84,7 +84,7 @@ public class GraphQLSchemaFileScannerPluginIT extends AbstractGraphQLSchemaScann
     @Test
     public void fieldDeclaresDirective() {
         store.beginTransaction();
-        List<DirectiveValueDescriptor> directiveValueDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(:GraphQL:Object:Type:Named{name:'Person'})-[:DECLARES_FIELD]->(:GraphQL:Field{name:'groups'})-[:DECLARES_DIRECTIVE]->(directive:GraphQL:Directive:Value) RETURN directive").getColumn("directive");
+        List<DirectiveValueDescriptor> directiveValueDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(:GraphQL:Object:Type{name:'Person'})-[:DECLARES_FIELD]->(:GraphQL:Field{name:'groups'})-[:DECLARES_DIRECTIVE]->(directive:GraphQL:Directive:Value) RETURN directive").getColumn("directive");
         assertThat(directiveValueDescriptors).hasSize(1);
         verifyDirectiveValue(directiveValueDescriptors.get(0), "relation", argumentDescriptors -> {
             verifyArgument(argumentDescriptors.get(0), "name", ScalarValueDescriptor.class, value -> assertThat(value.getValue()).isEqualTo("HAS_MEMBER"));
@@ -96,7 +96,7 @@ public class GraphQLSchemaFileScannerPluginIT extends AbstractGraphQLSchemaScann
     @Test
     public void inputFieldDeclaresDirective() {
         store.beginTransaction();
-        List<DirectiveValueDescriptor> directiveValueDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(:GraphQL:Object:Type:Named{name:'Query'})-[:DECLARES_FIELD]->(:GraphQL:Field{name:'personByName'})-[:DECLARES_INPUT_VALUE]->(:GraphQL:Input:Value{name:'name'})-[:DECLARES_DIRECTIVE]->(directive:GraphQL:Directive:Value) RETURN directive").getColumn("directive");
+        List<DirectiveValueDescriptor> directiveValueDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(:GraphQL:Object:Type{name:'Query'})-[:DECLARES_FIELD]->(:GraphQL:Field{name:'personByName'})-[:DECLARES_INPUT_VALUE]->(:GraphQL:Input:Value{name:'name'})-[:DECLARES_DIRECTIVE]->(directive:GraphQL:Directive:Value) RETURN directive").getColumn("directive");
         assertThat(directiveValueDescriptors).hasSize(1);
         verifyDirectiveValue(directiveValueDescriptors.get(0), "mine", argumentDescriptors -> assertThat(argumentDescriptors).isEmpty());
         store.commitTransaction();
@@ -106,15 +106,15 @@ public class GraphQLSchemaFileScannerPluginIT extends AbstractGraphQLSchemaScann
     public void typeHasSourceLocation() {
         Set<String> standardScalarNames = ScalarInfo.STANDARD_SCALARS.stream().map(GraphQLScalarType::getName).collect(toSet());
         store.beginTransaction();
-        List<NamedTypeDescriptor> namedTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(type:GraphQL:Named:Type) RETURN type").getColumn("type");
-        namedTypeDescriptors.stream().filter(namedTypeDescriptor -> !standardScalarNames.contains(namedTypeDescriptor.getName())).forEach(namedTypeDescriptor -> verifySourceLocation(namedTypeDescriptor));
+        List<TypeDescriptor> typeDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(type:GraphQL:Type) RETURN type").getColumn("type");
+        typeDescriptors.stream().filter(typeDescriptor -> !standardScalarNames.contains(typeDescriptor.getName())).forEach(typeDescriptor -> verifySourceLocation(typeDescriptor));
         store.commitTransaction();
     }
 
     @Test
     public void fieldHasSourceLocation() {
         store.beginTransaction();
-        List<FieldDescriptor> fieldDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(:GraphQL:Named:Type)-[:DECLARES_FIELD]->(field:GraphQL:Field) RETURN field").getColumn("field");
+        List<FieldDescriptor> fieldDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(:GraphQL:Type)-[:DECLARES_FIELD]->(field:GraphQL:Field) RETURN field").getColumn("field");
         verifySourceLocations(fieldDescriptors);
         store.commitTransaction();
     }
@@ -122,7 +122,7 @@ public class GraphQLSchemaFileScannerPluginIT extends AbstractGraphQLSchemaScann
     @Test
     public void inputValueHasSourceLocation() {
         store.beginTransaction();
-        List<InputValueDescriptor> inputValueDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(:GraphQL:Named:Type)-[:DECLARES_FIELD]->(:GraphQL:Field)-[:DECLARES_INPUT_VALUE]->(inputValue:GraphQL:Input:Value) RETURN inputValue").getColumn("inputValue");
+        List<InputValueDescriptor> inputValueDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(:GraphQL:Type)-[:DECLARES_FIELD]->(:GraphQL:Field)-[:DECLARES_INPUT_VALUE]->(inputValue:GraphQL:Input:Value) RETURN inputValue").getColumn("inputValue");
         verifySourceLocations(inputValueDescriptors);
         store.commitTransaction();
     }

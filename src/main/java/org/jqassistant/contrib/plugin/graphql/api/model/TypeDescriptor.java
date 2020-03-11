@@ -1,15 +1,14 @@
 package org.jqassistant.contrib.plugin.graphql.api.model;
 
-import com.buschmais.xo.api.annotation.Abstract;
+import com.buschmais.jqassistant.plugin.common.api.model.NamedDescriptor;
 import com.buschmais.xo.neo4j.api.annotation.Label;
 import com.buschmais.xo.neo4j.api.annotation.Relation;
 import com.buschmais.xo.neo4j.api.annotation.Relation.Incoming;
 
 import java.util.List;
 
-@Abstract
 @Label("Type")
-public interface TypeDescriptor extends GraphQLDescriptor {
+public interface TypeDescriptor extends GraphQLDescriptor, NamedDescriptor, DescriptionTemplate, DirectiveContainerTemplate, SourceLocationTemplate {
 
     @Relation
     @Incoming
@@ -23,5 +22,8 @@ public interface TypeDescriptor extends GraphQLDescriptor {
     @Incoming
     List<UnionDeclaresTypeDescriptor> getUnionDeclaresTypes();
 
+    @Relation
+    @Incoming
+    List<InputValueOfTypeDescriptor> getInputValueOfTypes();
 }
 

@@ -4,7 +4,7 @@ import com.buschmais.xo.neo4j.api.annotation.Relation;
 
 import java.util.List;
 
-public interface DirectiveTypeDescriptor extends NamedTypeDescriptor, DirectiveDescriptor, InputValueContainerTemplate {
+public interface DirectiveTypeDescriptor extends DirectiveDescriptor, InputValueContainerTemplate, TypeDescriptor {
 
     @Relation("DECLARES_LOCATION")
     List<DirectiveLocationDescriptor> getDeclaresLocations();

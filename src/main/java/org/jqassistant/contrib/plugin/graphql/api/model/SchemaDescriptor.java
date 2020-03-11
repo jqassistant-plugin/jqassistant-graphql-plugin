@@ -10,9 +10,9 @@ import java.util.List;
 @Label("Schema")
 public interface SchemaDescriptor extends GraphQLDescriptor {
 
-    @Relation("DECLARES")
-    List<NamedElementDescriptor> getDeclares();
+    @Relation("DECLARES_TYPE")
+    List<TypeDescriptor> getDeclaresTypes();
 
-    @Relation("REQUIRES")
-    List<NamedElementDescriptor> getRequires();
+    @Relation("REQUIRES_TYPE")
+    List<TypeDescriptor> getRequiresTypes();
 }

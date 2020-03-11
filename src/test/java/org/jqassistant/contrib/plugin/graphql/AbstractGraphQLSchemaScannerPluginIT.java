@@ -30,7 +30,7 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
     @Test
     public void schemaDeclaresScalarType() {
         store.beginTransaction();
-        List<ScalarTypeDescriptor> scalarTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(scalar:GraphQL:Scalar:Type:Named{name:'Long'}) RETURN scalar").getColumn("scalar");
+        List<ScalarTypeDescriptor> scalarTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(scalar:GraphQL:Scalar:Type{name:'Long'}) RETURN scalar").getColumn("scalar");
         assertThat(scalarTypeDescriptors).hasSize(1);
         store.commitTransaction();
     }
@@ -38,7 +38,7 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
     @Test
     public void schemaDeclaresEnumType() {
         store.beginTransaction();
-        List<EnumTypeDescriptor> enumTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(enum:GraphQL:Enum:Type:Named{name:'Coolness'}) RETURN enum").getColumn("enum");
+        List<EnumTypeDescriptor> enumTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(enum:GraphQL:Enum:Type{name:'Coolness'}) RETURN enum").getColumn("enum");
         assertThat(enumTypeDescriptors).hasSize(1);
         EnumTypeDescriptor enumTypeDescriptor = enumTypeDescriptors.get(0);
         List<EnumValueDescriptor> enumValueDescriptors = enumTypeDescriptor.getDeclaresValues();
@@ -50,7 +50,7 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
     @Test
     public void schemaDeclaresInterfaceType() {
         store.beginTransaction();
-        List<InterfaceTypeDescriptor> interfaceTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(interface:GraphQL:Interface:Type:Named{name:'Versioned'}) RETURN interface").getColumn("interface");
+        List<InterfaceTypeDescriptor> interfaceTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(interface:GraphQL:Interface:Type{name:'Versioned'}) RETURN interface").getColumn("interface");
         assertThat(interfaceTypeDescriptors).hasSize(1);
         InterfaceTypeDescriptor interfaceTypeDescriptor = interfaceTypeDescriptors.get(0);
         Map<String, FieldDescriptor> fieldDescriptors = asMap(interfaceTypeDescriptor.getFields());
@@ -63,7 +63,7 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
     @Test
     public void schemaDeclaresObjectType() {
         store.beginTransaction();
-        List<ObjectTypeDescriptor> objectTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(object:GraphQL:Object:Type:Named{name:'Person'}) RETURN object").getColumn("object");
+        List<ObjectTypeDescriptor> objectTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(object:GraphQL:Object:Type{name:'Person'}) RETURN object").getColumn("object");
         assertThat(objectTypeDescriptors).hasSize(1);
         ObjectTypeDescriptor objectTypeDescriptor = objectTypeDescriptors.get(0);
         // implemented interfaces
@@ -81,12 +81,13 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
         verifyField(fieldDescriptors.get("groups"), true, ofElementType -> {
             verifyOfType(ofElementType, true, "Group");
         });
+        store.commitTransaction();
     }
 
     @Test
     public void schemaDeclaresInputObjectType() {
         store.beginTransaction();
-        List<InputObjectTypeDescriptor> inputObjectTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(inputObject:GraphQL:Input:Object:Type:Named{name:'_Person'}) RETURN inputObject").getColumn("inputObject");
+        List<InputObjectTypeDescriptor> inputObjectTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(inputObject:GraphQL:Input:Object:Type{name:'_Person'}) RETURN inputObject").getColumn("inputObject");
         assertThat(inputObjectTypeDescriptors).hasSize(1);
         InputObjectTypeDescriptor inputObjectTypeDescriptor = inputObjectTypeDescriptors.get(0);
         // declared fields
@@ -96,13 +97,14 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
         verifyField(fieldDescriptors.get("name_in"), false, ofElementType -> {
             verifyOfType(ofElementType, true, "ID");
         });
+        store.commitTransaction();
     }
 
 
     @Test
     public void schemaDeclaresQueryTypeWithInputFields() {
         store.beginTransaction();
-        List<ObjectTypeDescriptor> queryTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES]->(query:GraphQL:Object:Type:Named{name:'Query'}) RETURN query").getColumn("query");
+        List<ObjectTypeDescriptor> queryTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(query:GraphQL:Object:Type{name:'Query'}) RETURN query").getColumn("query");
         assertThat(queryTypeDescriptors).hasSize(1);
         ObjectTypeDescriptor queryTypeDescriptor = queryTypeDescriptors.get(0);
         Map<String, FieldDescriptor> fieldDescriptors = asMap(queryTypeDescriptor.getFields());
@@ -130,7 +132,7 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
     @Test
     public void schemaRequiresDirectiveType() {
         store.beginTransaction();
-        List<DirectiveTypeDescriptor> directiveTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:REQUIRES]->(directive:GraphQL:Directive:Type:Named{name:'deprecated'}) RETURN directive").getColumn("directive");
+        List<DirectiveTypeDescriptor> directiveTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:REQUIRES_TYPE]->(directive:GraphQL:Directive:Type{name:'deprecated'}) RETURN directive").getColumn("directive");
         assertThat(directiveTypeDescriptors).hasSize(1);
         DirectiveTypeDescriptor directiveTypeDescriptor = directiveTypeDescriptors.get(0);
         List<InputValueDescriptor> inputValues = directiveTypeDescriptor.getInputValues();
@@ -182,8 +184,7 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
     private void verifyOfType(OfTypeTemplate ofType, boolean expectedRequired, String expectedTypeName) {
         assertThat(ofType.isRequired()).isEqualTo(expectedRequired);
         TypeDescriptor typeDescriptor = ofType.getType();
-        assertThat(typeDescriptor).isInstanceOf(NamedTypeDescriptor.class);
-        assertThat(((NamedTypeDescriptor) typeDescriptor).getName()).isEqualTo(expectedTypeName);
+        assertThat(typeDescriptor.getName()).isEqualTo(expectedTypeName);
     }
 
     protected <T extends ValueDescriptor> void verifyArgument(ArgumentDescriptor argumentDescriptor, String expectedName, Class<T> expectedValueType, Consumer<T> valueConsumer) {
