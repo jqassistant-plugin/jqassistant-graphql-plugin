@@ -30,6 +30,13 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
     protected abstract T scan() throws IOException;
 
     @Test
+    public void validSchema() {
+        store.beginTransaction();
+        assertThat(schemaDescriptor.isValid()).isTrue();
+        store.commitTransaction();
+    }
+
+    @Test
     public void schemaDeclaresScalarType() {
         store.beginTransaction();
         List<ScalarTypeDescriptor> scalarTypeDescriptors = query(
