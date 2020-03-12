@@ -43,6 +43,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jqa-plugin-common.version>1.9.0-SNAPSHOT</jqa-plugin-common.version>
+        <com.sun.jersey.version>1.19.4</com.sun.jersey.version>
+        <org.springframework.boot.version>2.2.4.RELEASE</org.springframework.boot.version>
     </properties>
 
     <dependencies>
@@ -50,22 +52,28 @@
             <groupId>com.graphql-java</groupId>
             <artifactId>graphql-java</artifactId>
             <version>14.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-client</artifactId>
-            <version>1.19.4</version>
+            <version>${com.sun.jersey.version}</version>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-core</artifactId>
-            <version>1.19.4</version>
+            <version>${com.sun.jersey.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-json</artifactId>
-            <version>1.19.4</version>
+            <version>${com.sun.jersey.version}</version>
         </dependency>
         <dependency>
             <groupId>com.buschmais.jqassistant.core</groupId>
@@ -99,6 +107,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
@@ -119,7 +128,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>2.2.4.RELEASE</version>
+            <version>${org.springframework.boot.version}</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -131,7 +140,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>2.2.4.RELEASE</version>
+            <version>${org.springframework.boot.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
