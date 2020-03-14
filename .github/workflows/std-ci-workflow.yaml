@@ -1,3 +1,4 @@
+
 name: 'jQA Standard CI Build'
 
 on:
@@ -6,7 +7,7 @@ on:
       - master
   schedule:
     - cron: '11 12 * * *'
-
+    
 jobs:
   ci:
     runs-on: ubuntu-latest
