@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import com.buschmais.jqassistant.plugin.common.api.model.NamedDescriptor;
 import com.buschmais.jqassistant.plugin.common.test.AbstractPluginIT;
 import com.buschmais.jqassistant.plugin.graphql.api.model.*;
 
@@ -160,8 +159,8 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
         store.commitTransaction();
     }
 
-    protected <T extends NamedDescriptor> Map<String, T> asMap(Collection<T> collection) {
-        return collection.stream().collect(toMap(namedDescriptor -> namedDescriptor.getName(), namedDescriptor -> namedDescriptor));
+    protected <T extends NameTemplate> Map<String, T> asMap(Collection<T> collection) {
+        return collection.stream().collect(toMap(nameTemplate -> nameTemplate.getName(), namedDescriptor -> namedDescriptor));
     }
 
     protected void verifyDirectiveValue(DirectiveValueDescriptor directiveValueDescriptor, String expectedName,
@@ -172,9 +171,9 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
         argumentConsumer.accept(argumentDescriptors);
     }
 
-    private void verifyField(FieldDescriptor fieldDescriptor, boolean expectedRequired, Consumer<OfTypeTemplate> ofElementTypeConsumer) {
+    private void verifyField(FieldDescriptor fieldDescriptor, boolean expectedNonNull, Consumer<OfTypeTemplate> ofElementTypeConsumer) {
         FieldOfTypeDescriptor ofType = fieldDescriptor.getOfType();
-        assertThat(ofType.isRequired()).isEqualTo(expectedRequired);
+        assertThat(ofType.isNonNull()).isEqualTo(expectedNonNull);
         TypeDescriptor typeDescriptor = ofType.getType();
         assertThat(typeDescriptor).isInstanceOf(ListTypeDescriptor.class);
         OfElementTypeDescriptor ofElementType = ((ListTypeDescriptor) typeDescriptor).getOfElementType();
@@ -201,8 +200,8 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
         defaultValueConsumer.accept(inputValueDescriptor.getDefaultValue());
     }
 
-    private void verifyOfType(OfTypeTemplate ofType, boolean expectedRequired, String expectedTypeName) {
-        assertThat(ofType.isRequired()).isEqualTo(expectedRequired);
+    private void verifyOfType(OfTypeTemplate ofType, boolean expectedNonNull, String expectedTypeName) {
+        assertThat(ofType.isNonNull()).isEqualTo(expectedNonNull);
         TypeDescriptor typeDescriptor = ofType.getType();
         assertThat(typeDescriptor.getName()).isEqualTo(expectedTypeName);
     }

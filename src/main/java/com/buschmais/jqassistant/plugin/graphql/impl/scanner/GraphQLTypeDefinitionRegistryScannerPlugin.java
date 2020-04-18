@@ -10,7 +10,6 @@ import com.buschmais.jqassistant.core.scanner.api.Scanner;
 import com.buschmais.jqassistant.core.scanner.api.Scope;
 import com.buschmais.jqassistant.core.store.api.Store;
 import com.buschmais.jqassistant.core.store.api.model.Descriptor;
-import com.buschmais.jqassistant.plugin.common.api.model.NamedDescriptor;
 import com.buschmais.jqassistant.plugin.common.api.scanner.AbstractScannerPlugin;
 import com.buschmais.jqassistant.plugin.graphql.api.model.*;
 
@@ -173,7 +172,7 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
             TypeResolver typeResolver, Store store) throws IOException {
         int index = 0;
         for (InputValueDefinition inputValueDefinition : inputValueDefinitions) {
-            InputValueDescriptor inputValueDescriptor = createNamedDescriptor(inputValueDefinition, InputValueDescriptor.class, store);
+            InputValueDescriptor inputValueDescriptor = createInputDescriptor(inputValueDefinition, InputValueDescriptor.class, store);
             processDescription(inputValueDefinition.getDescription(), inputValueDescriptor);
             inputValueDescriptor.setIndex(index);
             index++;
@@ -203,7 +202,7 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
         InputObjectTypeDescriptor inputObjectTypeDescriptor = typeResolver.declare(type, InputObjectTypeDescriptor.class);
         processDescription(type.getDescription(), inputObjectTypeDescriptor);
         for (InputValueDefinition inputValueDefinition : type.getInputValueDefinitions()) {
-            InputFieldDescriptor inputFieldDescriptor = createNamedDescriptor(inputValueDefinition, InputFieldDescriptor.class, store);
+            InputFieldDescriptor inputFieldDescriptor = createInputDescriptor(inputValueDefinition, InputFieldDescriptor.class, store);
             processDescription(inputValueDefinition.getDescription(), inputFieldDescriptor);
             resolveFieldType(inputFieldDescriptor, FieldOfTypeDescriptor.class, inputValueDefinition.getType(), typeResolver, store);
             inputObjectTypeDescriptor.getFields().add(inputFieldDescriptor);
@@ -211,7 +210,7 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
         return inputObjectTypeDescriptor;
     }
 
-    private <T extends NamedDescriptor & SourceLocationTemplate> T createNamedDescriptor(NamedNode<?> namedNode, Class<T> type, Store store) {
+    private <T extends InputDescriptor & NameTemplate & SourceLocationTemplate> T createInputDescriptor(NamedNode<?> namedNode, Class<T> type, Store store) {
         return store.create(type, t -> {
             t.setName(namedNode.getName());
             processSourceLocation(namedNode, t);
@@ -234,7 +233,7 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
             NonNullType nonNullType = (NonNullType) type;
             Type wrappedType = nonNullType.getType();
             R relation = resolveFieldType(from, relationType, wrappedType, typeResolver, store);
-            relation.setRequired(true);
+            relation.setNonNull(true);
             return relation;
         } else if (type instanceof ListType) {
             ListType listType = (ListType) type;

@@ -5,5 +5,5 @@ import com.buschmais.xo.neo4j.api.annotation.Label;
 
 @Abstract
 @Label("Directive")
-public interface DirectiveDescriptor {
+public interface DirectiveDescriptor extends GraphQLDescriptor {
 }

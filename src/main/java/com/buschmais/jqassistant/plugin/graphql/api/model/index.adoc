@@ -1,0 +1,12 @@
+= GraphQL Plugin
+
+include::introduction.adoc[]
+include::overview.adoc[]
+include::SchemaDescriptor.java[tags=doc]
+include::SchemaFileDescriptor.java[tags=doc]
+include::TypeDescriptor.java[tag=doc]
+include::FieldDescriptor.java[tag=doc]
+include::DirectiveTypeDescriptor.java[tag=doc]
+include::DirectiveValueDescriptor.java[tag=doc]
+include::ArgumentDescriptor.java[tag=doc]
+

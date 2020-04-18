@@ -4,8 +4,8 @@ public interface OfTypeTemplate {
 
     TypeDescriptor getType();
 
-    boolean isRequired();
+    boolean isNonNull();
 
-    void setRequired(boolean required);
+    void setNonNull(boolean nonNull);
 
 }
