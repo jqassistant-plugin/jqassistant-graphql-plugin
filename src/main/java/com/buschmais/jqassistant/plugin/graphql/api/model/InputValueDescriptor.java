@@ -22,7 +22,7 @@ public interface InputValueDescriptor
     void setDefaultValue(ValueDescriptor defaultValueDescriptor);
 
     @ResultOf
-    @Cypher("MATCH (inputValue) WHERE id(inputValue)={this} MERGE (inputValue)-[:OF_TYPE]->(enumType:GraphQL:Type) SET enumType:Enum MERGE (enumType)-[:DECLARES_VALUE]->(enumValue:GraphQL:Enum:Value{name:{name}}) RETURN enumValue")
+    @Cypher("MATCH (inputValue) WHERE id(inputValue)=$this MERGE (inputValue)-[:OF_TYPE]->(enumType:GraphQL:Type) SET enumType:Enum MERGE (enumType)-[:DECLARES_VALUE]->(enumValue:GraphQL:Enum:Value{name:$name}) RETURN enumValue")
     EnumValueDescriptor resolveEnumValue(@ResultOf.Parameter("name") String name);
 
 }

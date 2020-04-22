@@ -13,6 +13,6 @@ public interface EnumTypeDescriptor extends EnumDescriptor, TypeDescriptor {
     List<EnumValueDescriptor> getDeclaresValues();
 
     @ResultOf
-    @Cypher("MATCH (type:GraphQL:Type:Enum) WHERE id(type)={this} MERGE (type)-[:DECLARES_VALUE]->(value:GraphQL:Value:Enum{name:{name}}) RETURN value")
+    @Cypher("MATCH (type:GraphQL:Type:Enum) WHERE id(type)=$this MERGE (type)-[:DECLARES_VALUE]->(value:GraphQL:Value:Enum{name:$name}) RETURN value")
     EnumValueDescriptor resolveValue(@Parameter("name") String name);
 }
