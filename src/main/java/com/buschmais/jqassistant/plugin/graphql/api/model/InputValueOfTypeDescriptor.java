@@ -9,7 +9,7 @@ import com.buschmais.xo.neo4j.api.annotation.Relation.Outgoing;
 public interface InputValueOfTypeDescriptor extends OfTypeTemplate, Descriptor {
 
     @Outgoing
-    InputValueDescriptor getInputValue();
+    InputValueDefinitionDescriptor getInputValue();
 
     @Incoming
     @Override

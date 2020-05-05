@@ -151,11 +151,11 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
                 "MATCH (:GraphQL:Schema)-[:REQUIRES_TYPE]->(directive:GraphQL:Directive:Type{name:'deprecated'}) RETURN directive").getColumn("directive");
         assertThat(directiveTypeDescriptors).hasSize(1);
         DirectiveTypeDescriptor directiveTypeDescriptor = directiveTypeDescriptors.get(0);
-        List<InputValueDescriptor> inputValues = directiveTypeDescriptor.getInputValues();
+        List<InputValueDefinitionDescriptor> inputValues = directiveTypeDescriptor.getInputValues();
         assertThat(inputValues).hasSize(1);
-        InputValueDescriptor inputValueDescriptor = inputValues.get(0);
-        assertThat(inputValueDescriptor.getOfType()).isNull();
-        assertThat(inputValueDescriptor.getName()).isEqualTo("reason");
+        InputValueDefinitionDescriptor inputValueDefinitionDescriptor = inputValues.get(0);
+        assertThat(inputValueDefinitionDescriptor.getOfType()).isNull();
+        assertThat(inputValueDefinitionDescriptor.getName()).isEqualTo("reason");
         store.commitTransaction();
     }
 
@@ -186,18 +186,18 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
         verifyOfType(ofType, expectedRequired, expectedTypeName);
     }
 
-    protected void verifyInputValue(InputValueDescriptor inputValueDescriptor, int expectedIndex, boolean expectedRequired, String expectedTypeName) {
-        verifyInputValue(inputValueDescriptor, expectedIndex, expectedRequired, expectedTypeName, defaultValue -> {
+    protected void verifyInputValue(InputValueDefinitionDescriptor inputValueDefinitionDescriptor, int expectedIndex, boolean expectedRequired, String expectedTypeName) {
+        verifyInputValue(inputValueDefinitionDescriptor, expectedIndex, expectedRequired, expectedTypeName, defaultValue -> {
         });
     }
 
-    private void verifyInputValue(InputValueDescriptor inputValueDescriptor, int expectedIndex, boolean expectedRequired, String expectedTypeName,
-            Consumer<ValueDescriptor> defaultValueConsumer) {
-        assertThat(inputValueDescriptor).isNotNull();
-        assertThat(inputValueDescriptor.getIndex()).isEqualTo(expectedIndex);
-        InputValueOfTypeDescriptor ofType = inputValueDescriptor.getOfType();
+    private void verifyInputValue(InputValueDefinitionDescriptor inputValueDefinitionDescriptor, int expectedIndex, boolean expectedRequired, String expectedTypeName,
+                                  Consumer<ValueDescriptor> defaultValueConsumer) {
+        assertThat(inputValueDefinitionDescriptor).isNotNull();
+        assertThat(inputValueDefinitionDescriptor.getIndex()).isEqualTo(expectedIndex);
+        InputValueOfTypeDescriptor ofType = inputValueDefinitionDescriptor.getOfType();
         verifyOfType(ofType, expectedRequired, expectedTypeName);
-        defaultValueConsumer.accept(inputValueDescriptor.getDefaultValue());
+        defaultValueConsumer.accept(inputValueDefinitionDescriptor.getDefaultValue());
     }
 
     private void verifyOfType(OfTypeTemplate ofType, boolean expectedNonNull, String expectedTypeName) {

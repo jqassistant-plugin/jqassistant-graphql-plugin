@@ -42,7 +42,7 @@ public class GraphQLSchemaFileScannerPluginIT extends AbstractGraphQLSchemaScann
         assertThat(mineDirective.getDeclaresLocations().stream().map(location -> location.getName())).containsExactlyInAnyOrder("QUERY", "MUTATION", "FIELD",
                 "FRAGMENT_DEFINITION", "FRAGMENT_SPREAD", "INLINE_FRAGMENT", "SCHEMA", "SCALAR", "OBJECT", "FIELD_DEFINITION", "ARGUMENT_DEFINITION",
                 "INTERFACE", "UNION", "ENUM", "ENUM_VALUE", "INPUT_OBJECT", "INPUT_FIELD_DEFINITION");
-        Map<String, InputValueDescriptor> inputValueDescriptors = asMap(mineDirective.getInputValues());
+        Map<String, InputValueDefinitionDescriptor> inputValueDescriptors = asMap(mineDirective.getInputValues());
         verifyInputValue(inputValueDescriptors.get("comment"), 0, false, "String");
         verifyInputValue(inputValueDescriptors.get("coolness"), 1, false, "Coolness");
         store.commitTransaction();
@@ -94,7 +94,7 @@ public class GraphQLSchemaFileScannerPluginIT extends AbstractGraphQLSchemaScann
     public void inputFieldDeclaresDirective() {
         store.beginTransaction();
         List<DirectiveValueDescriptor> directiveValueDescriptors = query(
-                "MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(:GraphQL:Object:Type{name:'Query'})-[:DECLARES_FIELD]->(:GraphQL:Field{name:'personByName'})-[:DECLARES_INPUT_VALUE]->(:GraphQL:Input:Value{name:'name'})-[:DECLARES_DIRECTIVE]->(directive:GraphQL:Directive:Value) RETURN directive")
+                "MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(:GraphQL:Object:Type{name:'Query'})-[:DECLARES_FIELD]->(:GraphQL:Field{name:'personByName'})-[:DEFINES_INPUT_VALUE]->(:GraphQL:Input:ValueDefinition{name:'name'})-[:DECLARES_DIRECTIVE]->(directive:GraphQL:Directive:Value) RETURN directive")
                         .getColumn("directive");
         assertThat(directiveValueDescriptors).hasSize(1);
         verifyDirectiveValue(directiveValueDescriptors.get(0), "mine", argumentDescriptors -> Assertions.assertThat(argumentDescriptors).isEmpty());
@@ -123,10 +123,10 @@ public class GraphQLSchemaFileScannerPluginIT extends AbstractGraphQLSchemaScann
     @Test
     public void inputValueHasSourceLocation() {
         store.beginTransaction();
-        List<InputValueDescriptor> inputValueDescriptors = query(
-                "MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(:GraphQL:Type)-[:DECLARES_FIELD]->(:GraphQL:Field)-[:DECLARES_INPUT_VALUE]->(inputValue:GraphQL:Input:Value) RETURN inputValue")
+        List<InputValueDefinitionDescriptor> inputValueDefinitionDescriptors = query(
+                "MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(:GraphQL:Type)-[:DECLARES_FIELD]->(:GraphQL:Field)-[:DEFINES_INPUT_VALUE]->(inputValue:GraphQL:Input:ValueDefinition) RETURN inputValue")
                         .getColumn("inputValue");
-        verifySourceLocations(inputValueDescriptors);
+        verifySourceLocations(inputValueDefinitionDescriptors);
         store.commitTransaction();
     }
 

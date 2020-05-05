@@ -5,7 +5,7 @@ import com.buschmais.xo.neo4j.api.annotation.Label;
 /* tag::doc[]
 
 [[GraphQLDirectiveLocation]]
-==  A GraphQL Directive Location.
+==  Directive Location
 
 Represents the allowed locations for a directive.
 

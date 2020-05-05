@@ -9,7 +9,9 @@ import com.buschmais.xo.neo4j.api.annotation.Relation.Incoming;
 /* tag::doc[]
 
 [[GraphQLType]]
-==  A Type.
+== Type
+
+Represents a GraphQL type.
 
 .Used Combination of Labels
 [cols="1h,2"]
@@ -82,5 +84,5 @@ end::doc[] */
 
 /* tag::doc[]
 |===
- end::doc[] */
+end::doc[] */
 }

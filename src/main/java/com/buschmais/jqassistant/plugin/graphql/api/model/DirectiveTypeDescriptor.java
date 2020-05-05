@@ -7,7 +7,7 @@ import com.buschmais.xo.neo4j.api.annotation.Relation;
 /* tag::doc[]
 
 [[GraphQLDirectiveType]]
-==  A Directive Type
+==  Directive Type
 
 Represents a directive type that is defined within a GraphQL schema.
 

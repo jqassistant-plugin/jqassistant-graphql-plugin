@@ -96,11 +96,11 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
         int index = 0;
         for (Argument argument : arguments) {
             ArgumentDescriptor argumentDescriptor = store.create(ArgumentDescriptor.class);
-            InputValueDescriptor inputValueDescriptor = directiveTypeDescriptor.resolveInputValue(argument.getName());
-            argumentDescriptor.setInputValue(inputValueDescriptor);
+            InputValueDefinitionDescriptor inputValueDefinitionDescriptor = directiveTypeDescriptor.resolveInputValue(argument.getName());
+            argumentDescriptor.setInputValue(inputValueDefinitionDescriptor);
             argumentDescriptor.setIndex(index);
             index++;
-            ValueDescriptor valueDescriptor = resolveValue(inputValueDescriptor, argument.getValue(), store);
+            ValueDescriptor valueDescriptor = resolveValue(inputValueDefinitionDescriptor, argument.getValue(), store);
             argumentDescriptor.setValue(valueDescriptor);
             directiveValueDescriptor.getHasArguments().add(argumentDescriptor);
         }
@@ -172,19 +172,19 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
             TypeResolver typeResolver, Store store) throws IOException {
         int index = 0;
         for (InputValueDefinition inputValueDefinition : inputValueDefinitions) {
-            InputValueDescriptor inputValueDescriptor = createInputDescriptor(inputValueDefinition, InputValueDescriptor.class, store);
-            processDescription(inputValueDefinition.getDescription(), inputValueDescriptor);
-            inputValueDescriptor.setIndex(index);
+            InputValueDefinitionDescriptor inputValueDefinitionDescriptor = createInputDescriptor(inputValueDefinition, InputValueDefinitionDescriptor.class, store);
+            processDescription(inputValueDefinition.getDescription(), inputValueDefinitionDescriptor);
+            inputValueDefinitionDescriptor.setIndex(index);
             index++;
             Type type = inputValueDefinition.getType();
-            resolveFieldType(inputValueDescriptor, InputValueOfTypeDescriptor.class, type, typeResolver, store);
-            inputValueDescriptor.setDefaultValue(resolveValue(inputValueDescriptor, inputValueDefinition.getDefaultValue(), store));
-            inputValueContainerTemplate.getInputValues().add(inputValueDescriptor);
-            processDirectives(inputValueDefinition, inputValueDescriptor, typeResolver, store);
+            resolveFieldType(inputValueDefinitionDescriptor, InputValueOfTypeDescriptor.class, type, typeResolver, store);
+            inputValueDefinitionDescriptor.setDefaultValue(resolveValue(inputValueDefinitionDescriptor, inputValueDefinition.getDefaultValue(), store));
+            inputValueContainerTemplate.getInputValues().add(inputValueDefinitionDescriptor);
+            processDirectives(inputValueDefinition, inputValueDefinitionDescriptor, typeResolver, store);
         }
     }
 
-    private ValueDescriptor resolveValue(InputValueDescriptor inputValueDescriptor, Value<?> value, Store store) throws IOException {
+    private ValueDescriptor resolveValue(InputValueDefinitionDescriptor inputValueDefinitionDescriptor, Value<?> value, Store store) throws IOException {
         if (value == null) {
             return null;
         } else if (value instanceof ScalarValue<?>) {
@@ -193,7 +193,7 @@ public class GraphQLTypeDefinitionRegistryScannerPlugin extends AbstractScannerP
             scalarValueDescriptor.setValue(scalarValue);
             return scalarValueDescriptor;
         } else if (value instanceof EnumValue) {
-            return inputValueDescriptor.resolveEnumValue(((EnumValue) value).getName());
+            return inputValueDefinitionDescriptor.resolveEnumValue(((EnumValue) value).getName());
         }
         throw new IOException("Unsupported value type " + value);
     }

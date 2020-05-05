@@ -4,9 +4,9 @@ import com.buschmais.jqassistant.plugin.common.api.model.FileDescriptor;
 
 /* tag::doc[]
 
-==  A GraphQL SDL file
+==  Schema File
 
-A file with the the extension `.graphql` or `.graphqls`.
+A file with the the extension `.graphql` or `.graphqls` containing a GraphQL schema.
 
 .Used Combination of Labels
 [cols="1h,2"]
@@ -14,7 +14,7 @@ A file with the the extension `.graphql` or `.graphqls`.
 
 tag::labeloverview[]
 
-ifdef::iov[| GraphQL Schema File (`.graphql` or `.graphqls` extension)]
+ifdef::iov[| GraphQL Schema File]
 ifndef::iov[| Used labels]
 | `:GraphQL:Schema:File`
 
@@ -25,5 +25,3 @@ end::labeloverview[]
 end::doc[] */
 public interface SchemaFileDescriptor extends SchemaDescriptor, FileDescriptor {
 }
-
-

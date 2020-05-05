@@ -13,10 +13,16 @@
 include::SchemaDescriptor.java[tag=labeloverview]
 include::SchemaFileDescriptor.java[tag=labeloverview]
 include::TypeDescriptor.java[tag=labeloverview]
+include::ScalarTypeDescriptor.java[tag=overview]
+include::EnumTypeDescriptor.java[tag=overview]
 include::FieldDescriptor.java[tag=labeloverview]
 include::DirectiveTypeDescriptor.java[tag=labeloverview]
 include::DirectiveValueDescriptor.java[tag=labeloverview]
 include::ArgumentDescriptor.java[tag=labeloverview]
+include::InputValueDefinitionDescriptor.java[tag=labeloverview]
+include::ValueDescriptor.java[tag=labeloverview]
+include::ScalarValueDescriptor.java[tag=overview]
+include::EnumValueDescriptor.java[tag=overview]
 
 |===
 

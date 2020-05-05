@@ -7,7 +7,9 @@ import com.buschmais.xo.neo4j.api.annotation.Relation.Outgoing;
 /* tag::doc[]
 
 [[GraphQLField]]
-==  A Field.
+==  Field
+
+Represents a field of an object or interface type.
 
 .Used Combination of Labels
 [cols="1h,2"]

@@ -18,7 +18,7 @@
         <class>com.buschmais.jqassistant.plugin.graphql.api.model.UnionTypeDescriptor</class>
         <class>com.buschmais.jqassistant.plugin.graphql.api.model.UnionDeclaresTypeDescriptor</class>
         <class>com.buschmais.jqassistant.plugin.graphql.api.model.InputFieldDescriptor</class>
-        <class>com.buschmais.jqassistant.plugin.graphql.api.model.InputValueDescriptor</class>
+        <class>com.buschmais.jqassistant.plugin.graphql.api.model.InputValueDefinitionDescriptor</class>
         <class>com.buschmais.jqassistant.plugin.graphql.api.model.ListTypeDescriptor</class>
         <class>com.buschmais.jqassistant.plugin.graphql.api.model.FieldOfTypeDescriptor</class>
         <class>com.buschmais.jqassistant.plugin.graphql.api.model.ArgumentDescriptor</class>

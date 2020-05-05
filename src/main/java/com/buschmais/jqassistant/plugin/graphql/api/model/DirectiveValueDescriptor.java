@@ -7,7 +7,7 @@ import com.buschmais.xo.neo4j.api.annotation.Relation;
 /* tag::doc[]
 
 [[GraphQLDirectiveValue]]
-==  A Directive Value.
+== Directive Value
 
 Represents a directive that is present at an element of the GraphQL schema.
 

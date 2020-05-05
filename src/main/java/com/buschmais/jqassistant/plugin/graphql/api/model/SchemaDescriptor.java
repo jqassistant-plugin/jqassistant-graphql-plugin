@@ -9,7 +9,9 @@ import com.buschmais.xo.neo4j.api.annotation.Relation;
 
 /* tag::doc[]
 
-==  A GraphQL Schema
+== Schema
+
+Represents a GraphQL schema.
 
 .Used Combination of Labels
 [cols="1h,2"]
