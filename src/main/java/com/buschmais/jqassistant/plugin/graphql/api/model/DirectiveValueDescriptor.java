@@ -17,7 +17,7 @@ Represents a directive that is present at an element of the GraphQL schema.
 
 tag::labeloverview[]
 
-ifdef::iov[| GraphQL Directive Value]
+ifdef::iov[|  Directive Value]
 ifndef::iov[| Used labels]
 | `:GraphQL:Directive:Value`
 

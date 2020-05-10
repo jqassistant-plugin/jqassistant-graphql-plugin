@@ -12,7 +12,7 @@ import com.buschmais.xo.neo4j.api.annotation.Relation;
 [[GraphQLEnumType]]
 ==  Enum Type
 
-Represents a GraphQL Enum xref:Type[Type].
+Represents a GraphQL Enum xref:GraphQLType[Type].
 
 .Used Combination of Labels
 [cols="1h,2"]
@@ -20,7 +20,7 @@ Represents a GraphQL Enum xref:Type[Type].
 
 tag::labeloverview[]
 
-ifdef::iov[| GraphQL Enum Type]
+ifdef::iov[|  Enum Type]
 ifndef::iov[| Used labels]
 | `:GraphQL:Enum:Type`
 
@@ -47,7 +47,7 @@ end::doc[] */
 /* tag::doc[]
 | `DECLARES_VALUE`
 | xref:GraphQLEnumValue[Enum Value]
-| 1
+| 1..n
 | References an enum value declared by the type.
 end::doc[] */
     @Relation("DECLARES_VALUE")

@@ -9,7 +9,7 @@ import com.buschmais.xo.neo4j.api.annotation.Relation;
 [[GraphQLDirectiveType]]
 ==  Directive Type
 
-Represents a directive type that is defined within a GraphQL schema.
+Represents a directive xref:GraphQLType[Type] that is defined within a GraphQL schema.
 
 .Used Combination of Labels
 [cols="1h,2"]
@@ -17,7 +17,7 @@ Represents a directive type that is defined within a GraphQL schema.
 
 tag::labeloverview[]
 
-ifdef::iov[| GraphQL Directive Type]
+ifdef::iov[|  Directive Type]
 ifndef::iov[| Used labels]
 | `:GraphQL:Directive:Type`
 
@@ -49,6 +49,10 @@ end::doc[] */
 end::doc[] */
     @Relation("DECLARES_LOCATION")
     List<DirectiveLocationDescriptor> getDeclaresLocations();
+
+/* tag::doc[]
+include::InputValueContainerTemplate.java[tag=relations]
+end::doc[] */
 
 /* tag::doc[]
 |===

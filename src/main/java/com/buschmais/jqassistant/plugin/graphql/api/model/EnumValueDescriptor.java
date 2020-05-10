@@ -13,7 +13,7 @@ Represents a GraphQL Enum value.
 
 tag::labeloverview[]
 
-ifdef::iov[| GraphQL Enum Value]
+ifdef::iov[| Enum Value]
 ifndef::iov[| Used labels]
 | `:GraphQL:Enum:Value`
 
@@ -26,7 +26,7 @@ public interface EnumValueDescriptor extends ValueDescriptor, EnumDescriptor, Na
 
 /* tag::doc[]
 
-.Relations of an Input Value Definition
+.Relations of an Enum Value
 [options="header",cols="2,2,1,5"]
 |===
 
@@ -39,14 +39,14 @@ end::doc[] */
 
 /* tag::doc[]
 include::DirectiveContainerTemplate.java[tag=relations]
-/* tag::doc[]
+/* end::doc[]
 
 /* tag::doc[]
 |===
 end::doc[] */
 
 /* tag::doc[]
-.Properties of :GraphQL:Type
+.Properties of :GraphQL:Enum:Value
 [options="header",cols="2,2,6"]
 |===
 

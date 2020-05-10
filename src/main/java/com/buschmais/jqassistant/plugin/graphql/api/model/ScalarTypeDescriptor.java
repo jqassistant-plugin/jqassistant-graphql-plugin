@@ -5,7 +5,7 @@ package com.buschmais.jqassistant.plugin.graphql.api.model;
 [[GraphQLScalarType]]
 ==  Scalar Type
 
-Represents a GraphQL Scalar xref:Type[Type].
+Represents a GraphQL Scalar xref:GraphQLType[Type].
 
 .Used Combination of Labels
 [cols="1h,2"]
@@ -13,7 +13,7 @@ Represents a GraphQL Scalar xref:Type[Type].
 
 tag::labeloverview[]
 
-ifdef::iov[| GraphQL Scalar Type]
+ifdef::iov[|  Scalar Type]
 ifndef::iov[| Used labels]
 | `:GraphQL:Scalar:Type`
 

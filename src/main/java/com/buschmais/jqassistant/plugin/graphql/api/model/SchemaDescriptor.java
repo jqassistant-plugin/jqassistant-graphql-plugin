@@ -9,6 +9,7 @@ import com.buschmais.xo.neo4j.api.annotation.Relation;
 
 /* tag::doc[]
 
+[[GraphQLSchema]]
 == Schema
 
 Represents a GraphQL schema.
@@ -19,7 +20,7 @@ Represents a GraphQL schema.
 
 tag::labeloverview[]
 
-ifdef::iov[| GraphQL Schema]
+ifdef::iov[|  Schema]
 ifndef::iov[| Used labels]
 | `:GraphQL:Schema`
 

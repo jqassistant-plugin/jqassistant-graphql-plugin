@@ -5,20 +5,18 @@ package com.buschmais.jqassistant.plugin.graphql.api.model;
 [[GraphQLOfType]]
 ==  Of Type Relation
 
-References a GraphQL type indicating of this reference may be nullable.
+References a GraphQL type indicating if this reference is nullable.
 
 .Relation to a GraphQL Type
-[options="header",cols="2,2,1,5"]
+[options="header",cols="2,4"]
 |===
 
 | Relation Name
 | Target Node Type
-| Description
 
 
 | `OF_TYPE`
 | xref:GraphQLType[Type]
-| The relation to the type.
 
 |===
 end::doc[] */
@@ -27,9 +25,14 @@ public interface OfTypeTemplate {
     TypeDescriptor getType();
 
 /* tag::doc[]
-.Properties of OF_TYPE
+.Properties of :OF_TYPE
 [options="header",cols="2,2,6"]
 |===
+
+| Property Name
+| Existence
+| Description
+
 end::doc[] */
 
 /* tag::doc[]

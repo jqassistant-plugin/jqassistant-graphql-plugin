@@ -9,6 +9,12 @@ import com.buschmais.xo.neo4j.api.annotation.Relation;
 
 public interface InputValueContainerTemplate {
 
+/* tag::relations[]
+| `DEFINES_INPUT_VALUE`
+| xref:GraphQLInputValueDefinition[Input Value Definition]
+| 0..n
+| References the declared GraphQL input value definitions
+end::relations[] */
     @Relation("DEFINES_INPUT_VALUE")
     List<InputValueDefinitionDescriptor> getInputValues();
 

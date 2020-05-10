@@ -19,7 +19,7 @@ Defines an input value.
 
 tag::labeloverview[]
 
-ifdef::iov[| GraphQL Input Value Definition]
+ifdef::iov[|  Input Value Definition]
 ifndef::iov[| Used labels]
 | `:GraphQL:Input:ValueDefinition`
 
@@ -47,7 +47,7 @@ end::doc[] */
 
 /* tag::doc[]
 | `OF_TYPE`
-| xref:GraphQLOfType[Input Value Type]
+| xref:GraphQLOfType[Of Type (Relation)]
 | 1
 | The relation to the type.
 end::doc[] */

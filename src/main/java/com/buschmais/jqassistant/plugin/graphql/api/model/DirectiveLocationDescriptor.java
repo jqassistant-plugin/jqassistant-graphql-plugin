@@ -15,7 +15,7 @@ Represents the allowed locations for a directive.
 
 tag::labeloverview[]
 
-ifdef::iov[| GraphQL Directive Location]
+ifdef::iov[| Directive Location]
 ifndef::iov[| Used labels]
 | `:GraphQL:Directive:Location`
 

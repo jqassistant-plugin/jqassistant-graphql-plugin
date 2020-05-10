@@ -6,7 +6,7 @@
 The GraphQL plugin provides scanners for GraphQL schemas provided via
 
 * SDL files (having the extension `.graphql` or `.graphqls`)
-* Introspection queries to HTTP endpoints
+* Introspection queries to HTTP endpoints by scanning an URL
 
 [TIP]
 For an introduction into GraphQL, its schema and elements refer to http://graphql.org[].

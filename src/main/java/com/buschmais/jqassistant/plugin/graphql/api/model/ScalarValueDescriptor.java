@@ -13,7 +13,7 @@ Represents a GraphQL Scalar value.
 
 tag::labeloverview[]
 
-ifdef::iov[| GraphQL Scalar Value]
+ifdef::iov[|  Scalar Value]
 ifndef::iov[| Used labels]
 | `:GraphQL:Scalar:Value`
 

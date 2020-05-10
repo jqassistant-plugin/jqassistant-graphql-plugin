@@ -19,7 +19,7 @@ Represents a GraphQL type.
 
 tag::labeloverview[]
 
-ifdef::iov[| GraphQL Type]
+ifdef::iov[|  Type]
 ifndef::iov[| Used labels]
 | `:GraphQL:Type`
 

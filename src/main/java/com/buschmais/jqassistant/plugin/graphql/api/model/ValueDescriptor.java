@@ -16,7 +16,7 @@ Represents a value (e.g. a scalar or enum).
 
 tag::labeloverview[]
 
-ifdef::iov[| GraphQL Value]
+ifdef::iov[|  Value]
 ifndef::iov[| Used labels]
 | `:GraphQL:Value`
 

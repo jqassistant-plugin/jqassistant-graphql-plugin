@@ -6,7 +6,7 @@ import com.buschmais.jqassistant.plugin.common.api.model.FileDescriptor;
 
 ==  Schema File
 
-A file with the the extension `.graphql` or `.graphqls` containing a GraphQL schema.
+A file with the the extension `.graphql` or `.graphqls` containing a GraphQL xref:GraphQLSchema[Schema].
 
 .Used Combination of Labels
 [cols="1h,2"]
@@ -14,7 +14,7 @@ A file with the the extension `.graphql` or `.graphqls` containing a GraphQL sch
 
 tag::labeloverview[]
 
-ifdef::iov[| GraphQL Schema File]
+ifdef::iov[|  Schema File]
 ifndef::iov[| Used labels]
 | `:GraphQL:Schema:File`
 

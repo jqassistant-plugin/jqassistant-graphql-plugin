@@ -17,7 +17,7 @@ Represents a field of an object or interface type.
 
 tag::labeloverview[]
 
-ifdef::iov[| GraphQL Field]
+ifdef::iov[|  Field]
 ifndef::iov[| Used labels]
 | `:GraphQL:Field`
 
@@ -30,9 +30,36 @@ end::doc[] */
 public interface FieldDescriptor
         extends GraphQLDescriptor, NameTemplate, DescriptionTemplate, InputValueContainerTemplate, DirectiveContainerTemplate, SourceLocationTemplate {
 
+/* tag::doc[]
+
+.Relations of a Field
+[options="header",cols="2,2,1,5"]
+|===
+
+| Relation Name
+| Target Node
+| Cardinality
+| Description
+
+end::doc[] */
+
+/* tag::doc[]
+| `OF_TYPE`
+| xref:GraphQLOfType[Of Type (Relation)]
+| 1
+| References the field type
+end::doc[] */
     @Relation
     @Outgoing
     FieldOfTypeDescriptor getOfType();
+
+/* tag::doc[]
+include::InputValueContainerTemplate.java[tag=relations]
+end::doc[] */
+
+/* tag::doc[]
+|===
+end::doc[] */
 
 /* tag::doc[]
 .Properties of :GraphQL:Field
@@ -50,5 +77,5 @@ end::doc[] */
 
 /* tag::doc[]
 |===
- end::doc[] */
+end::doc[] */
 }

@@ -16,7 +16,7 @@ Represents an argument of a GraphQL directive.
 
 tag::labeloverview[]
 
-ifdef::iov[| GraphQL Argument]
+ifdef::iov[| Argument]
 ifndef::iov[| Used labels]
 | `:GraphQL:Argument`
 
@@ -30,7 +30,7 @@ public interface ArgumentDescriptor extends GraphQLDescriptor, IndexTemplate {
 
 /* tag::doc[]
 
-.Relations of a GraphQL Schema
+.Relations of a GraphQL Argument
 [options="header",cols="2,2,1,5"]
 |===
 
@@ -54,7 +54,7 @@ end::doc[] */
 
 /* tag::doc[]
 | `OF_INPUT_VALUE`
-| xref:GraphQLInputValue[Input Value]
+| xref:GraphQLInputValueDefinition[Input Value Definition]
 | 1
 | References the input value defined for this argument.
 end::doc[] */
