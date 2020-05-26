@@ -1,5 +1,5 @@
-:toc:
-
 = jQAssistant GraphQL Plugin
+
+image::https://github.com/jQAssistant/jqa-graphql-plugin/workflows/jQA%20Standard%20CI%20Build/badge.svg[jQA Standard CI Build]
 
 The project provides a http://jqassistant.org/[jQAssistant] plugin for GraphQL
