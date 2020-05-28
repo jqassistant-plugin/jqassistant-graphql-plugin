@@ -23,6 +23,11 @@
         <tag>HEAD</tag>
     </scm>
 
+    <organization>
+        <name>jQAssistant Development Team</name>
+        <url>https://jqassistant.org</url>
+    </organization>
+
     <licenses>
         <license>
             <name>GNU General Public License, v3</name>
