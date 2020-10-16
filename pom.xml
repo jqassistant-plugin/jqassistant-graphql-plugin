@@ -48,6 +48,7 @@
         <jqa-plugin-common.version>1.9.0-SNAPSHOT</jqa-plugin-common.version>
         <com.sun.jersey.version>1.19.4</com.sun.jersey.version>
         <org.springframework.boot.version>2.2.4.RELEASE</org.springframework.boot.version>
+        <asciidoctor.toplevelid>graphql-plugin</asciidoctor.toplevelid>
     </properties>
 
     <dependencies>
