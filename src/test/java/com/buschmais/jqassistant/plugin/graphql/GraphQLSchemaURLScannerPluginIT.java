@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-public class GraphQLSchemaURLScannerPluginIT extends AbstractGraphQLSchemaScannerPluginIT<SchemaUrlDescriptor> {
+class GraphQLSchemaURLScannerPluginIT extends AbstractGraphQLSchemaScannerPluginIT<SchemaUrlDescriptor> {
 
     @LocalServerPort
     private int port;
@@ -26,7 +26,7 @@ public class GraphQLSchemaURLScannerPluginIT extends AbstractGraphQLSchemaScanne
     }
 
     @Test
-    public void schemaURL() {
+    void schemaURL() {
         store.beginTransaction();
         assertThat(schemaDescriptor).isNotNull();
         assertThat(schemaDescriptor.getURL()).isEqualTo(getUrl());

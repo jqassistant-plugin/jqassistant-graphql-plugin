@@ -17,26 +17,26 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescriptor> extends AbstractPluginIT {
+abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescriptor> extends AbstractPluginIT {
 
     protected T schemaDescriptor;
 
     @BeforeEach
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         schemaDescriptor = scan();
     }
 
     protected abstract T scan() throws IOException;
 
     @Test
-    public void validSchema() {
+    void validSchema() {
         store.beginTransaction();
         assertThat(schemaDescriptor.isValid()).isTrue();
         store.commitTransaction();
     }
 
     @Test
-    public void schemaDeclaresScalarType() {
+    void schemaDeclaresScalarType() {
         store.beginTransaction();
         List<ScalarTypeDescriptor> scalarTypeDescriptors = query(
                 "MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(scalar:GraphQL:Scalar:Type{name:'Long'}) RETURN scalar").getColumn("scalar");
@@ -45,7 +45,7 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
     }
 
     @Test
-    public void schemaDeclaresEnumType() {
+    void schemaDeclaresEnumType() {
         store.beginTransaction();
         List<EnumTypeDescriptor> enumTypeDescriptors = query("MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(enum:GraphQL:Enum:Type{name:'Coolness'}) RETURN enum")
                 .getColumn("enum");
@@ -59,7 +59,7 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
     }
 
     @Test
-    public void schemaDeclaresInterfaceType() {
+    void schemaDeclaresInterfaceType() {
         store.beginTransaction();
         List<InterfaceTypeDescriptor> interfaceTypeDescriptors = query(
                 "MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(interface:GraphQL:Interface:Type{name:'Versioned'}) RETURN interface").getColumn("interface");
@@ -73,7 +73,7 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
     }
 
     @Test
-    public void schemaDeclaresObjectType() {
+    void schemaDeclaresObjectType() {
         store.beginTransaction();
         List<ObjectTypeDescriptor> objectTypeDescriptors = query(
                 "MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(object:GraphQL:Object:Type{name:'Person'}) RETURN object").getColumn("object");
@@ -98,7 +98,7 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
     }
 
     @Test
-    public void schemaDeclaresInputObjectType() {
+    void schemaDeclaresInputObjectType() {
         store.beginTransaction();
         List<InputObjectTypeDescriptor> inputObjectTypeDescriptors = query(
                 "MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(inputObject:GraphQL:Input:Object:Type{name:'_Person'}) RETURN inputObject")
@@ -116,7 +116,7 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
     }
 
     @Test
-    public void schemaDeclaresQueryTypeWithInputFields() {
+    void schemaDeclaresQueryTypeWithInputFields() {
         store.beginTransaction();
         List<ObjectTypeDescriptor> queryTypeDescriptors = query(
                 "MATCH (:GraphQL:Schema)-[:DECLARES_TYPE]->(query:GraphQL:Object:Type{name:'Query'}) RETURN query").getColumn("query");
@@ -145,7 +145,7 @@ public abstract class AbstractGraphQLSchemaScannerPluginIT<T extends SchemaDescr
     }
 
     @Test
-    public void schemaRequiresDirectiveType() {
+    void schemaRequiresDirectiveType() {
         store.beginTransaction();
         List<DirectiveTypeDescriptor> directiveTypeDescriptors = query(
                 "MATCH (:GraphQL:Schema)-[:REQUIRES_TYPE]->(directive:GraphQL:Directive:Type{name:'deprecated'}) RETURN directive").getColumn("directive");
