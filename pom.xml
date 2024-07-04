@@ -44,7 +44,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jqa-plugin-common.version>2.0.0</jqa-plugin-common.version>
         <com.sun.jersey.version>1.19.4</com.sun.jersey.version>
         <org.springframework.boot.version>2.2.4.RELEASE</org.springframework.boot.version>
     </properties>
@@ -58,6 +57,7 @@
         <dependency>
             <groupId>com.buschmais.xo</groupId>
             <artifactId>xo.api</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -120,7 +120,6 @@
         <dependency>
             <groupId>com.buschmais.jqassistant.plugin</groupId>
             <artifactId>common</artifactId>
-            <version>${jqa-plugin-common.version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- Test dependencies -->
@@ -128,7 +127,6 @@
             <groupId>com.buschmais.jqassistant.plugin</groupId>
             <artifactId>common</artifactId>
             <type>test-jar</type>
-            <version>${jqa-plugin-common.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -156,6 +154,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
