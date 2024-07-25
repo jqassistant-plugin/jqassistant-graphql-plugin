@@ -1,0 +1,35 @@
+//
+//
+//
+
+[.lead]
+The GraphQL plugin provides scanners for GraphQL schemas provided via
+
+* SDL files (having the extension `.graphql` or `.graphqls`)
+* Introspection queries to HTTP endpoints by scanning an URL, e.g. `jqassistant scan -u graphql:schema::https://bahnql.herokuapp.com/graphql`
+
+[TIP]
+For an introduction into GraphQL, its schema and elements refer to http://graphql.org[].
+
+== Features
+
+* Scanning of
+** SDL files
+** HTTP endpoints by executing an introspection query using scope `graphql:schema`
+* Supported schema elements
+** Object types including fields and implemented interfaces
+** Input object types including fields
+** Enum types including defined values
+** Scalar types
+** Interface types including fields
+** Union types including the types
+** Directive types
+* All supported elements provide additional information
+** The source location (i.e. line and column numbers)
+** Specifed directives and their values
+
+== Feature Requests and Bugs
+
+In case of a missing feature or any kind of unexpected or faulty behaviour, please
+https://github.com/jqassistant/jqa-graphql-plugin/issues[file an issue via Github^].
+

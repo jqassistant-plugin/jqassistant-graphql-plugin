@@ -1,0 +1,37 @@
+<jqassistant-plugin xmlns="http://schema.jqassistant.org/plugin/v1.10"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://schema.jqassistant.org/plugin/v1.10 https://schema.jqassistant.org/plugin/jqassistant-plugin-v1.10.xsd"
+                    name="jQAssistant GraphQL Plugin" id="jqa.plugin.graphql"
+                    version="${project.version}">
+    <description>Provides a scanner for GraphQL schemas.</description>
+    <model>
+        <class>org.jqassistant.plugin.graphql.api.model.SchemaFileDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.SchemaUrlDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.DirectiveTypeDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.DirectiveLocationDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.DirectiveValueDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.EnumTypeDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.EnumValueDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.ScalarTypeDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.ScalarValueDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.InputObjectTypeDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.InterfaceTypeDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.UnionTypeDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.UnionDeclaresTypeDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.InputFieldDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.InputValueDefinitionDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.ListTypeDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.FieldOfTypeDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.ArgumentDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.InputValueOfTypeDescriptor</class>
+        <class>org.jqassistant.plugin.graphql.api.model.OfElementTypeDescriptor</class>
+    </model>
+    <scope>
+        <class>org.jqassistant.plugin.graphql.scope.GraphQLScope</class>
+    </scope>
+    <scanner>
+        <class>org.jqassistant.plugin.graphql.impl.scanner.GraphQLSchemaFileScannerPlugin</class>
+        <class>org.jqassistant.plugin.graphql.impl.scanner.GraphQLSchemaURLScannerPlugin</class>
+        <class>org.jqassistant.plugin.graphql.impl.scanner.GraphQLTypeDefinitionRegistryScannerPlugin</class>
+    </scanner>
+</jqassistant-plugin>

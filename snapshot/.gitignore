@@ -1,0 +1,9 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/
+*.iml
+pom.xml.versionsBackup
+*.backup
+
+# Maven related files and directories
+target
+/.mvn

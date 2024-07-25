@@ -1,0 +1,30 @@
+= jQAssistant GraphQL Plugin
+
+The project provides a http://jqassistant.org/[jQAssistant] plugin for GraphQL.
+
+== Using the jqassistant-graphql-plugin
+
+NOTE:: Starting from jqassistant-graphql-plugin v2.0.0, the GraphQL-Plugin resides under jqassistant-plugin.
+Therefore, not only the repository location changed but also group id and artifact id were adapted from `com.buschmais.jqassistant.plugin:graphql` to `org.jqassistant.plugin:jqassistant-graphql-plugin`.
+
+NOTE:: From jQAssistant v2.0.0 onwards, it is not part of the core distribution anymore and a manual configuration as shown below is required.
+
+[source, yaml]
+----
+jqassistant:
+  plugins:
+    - group-id: org.jqassistant.plugin <1>
+      artifact-id: jqassistant-graphql-plugin
+      version: ${jqassistant.graphql-plugin.version}
+----
+<1> Dependency to the GraphQL plugin
+
+== Changelog
+
+=== 2.0.0
+
+- Moved Plugin from com.buschmais.jqassistant.plugin (core-Distribution) to org.jqassistant.plugin
+
+=== 1.9.0
+
+- Added scanners for GraphQL schema files and URL introspection

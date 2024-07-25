@@ -1,0 +1,80 @@
+schema @mine {
+    query: Query
+    mutation: Mutation
+    subscription: Subscription
+}
+
+directive @mine(comment: String, coolness: Coolness) on QUERY
+    | MUTATION
+    | FIELD
+    | FRAGMENT_DEFINITION
+    | FRAGMENT_SPREAD
+    | INLINE_FRAGMENT
+    | SCHEMA
+    | SCALAR
+    | OBJECT
+    | FIELD_DEFINITION
+    | ARGUMENT_DEFINITION
+    | INTERFACE
+    | UNION
+    | ENUM
+    | ENUM_VALUE
+    | INPUT_OBJECT
+    | INPUT_FIELD_DEFINITION
+
+"Custom Scalar Type"
+scalar Long @mine(comment: "My Long scalar", coolness: HIGH)
+
+enum Coolness {
+    LOW @mine,
+    HIGH
+}
+
+"Defines Queries"
+type Query @mine(comment: "My Query Type") {
+    person : [Person!]! @deprecated(reason: "Too expensive")
+    personByName(name:ID! @mine) : Person
+    personByAge(age:Int = 42) : [Person!]
+    personByGender(gender:Gender = FEMALE) : [Person!]
+}
+
+"Defines Mutations"
+type Mutation {
+    person(name:ID, age: Int): Person
+}
+
+"Defines Subscriptions"
+type Subscription {
+    newPerson: Person
+}
+
+enum Gender @mine {
+    FEMALE @mine
+    MALE @mine
+}
+
+interface Versioned @mine {
+    version: Long!
+}
+
+type Person implements Versioned @mine {
+    name: ID!
+    age: Int
+    gender: Gender
+    version: Long!
+    groups: [Group!]! @relation(name:"HAS_MEMBER", direction:IN)
+}
+
+input _Person {
+    name: ID
+    name_in: [ID!]
+}
+
+type Group implements Versioned {
+    name: ID!
+    members: [Person!]! @relation(name:"HAS_MEMBER", direction:OUT)
+    version: Long!
+}
+
+union Everything @mine = Person | Group
+
