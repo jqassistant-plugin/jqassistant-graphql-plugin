@@ -45,7 +45,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <com.sun.jersey.version>1.19.4</com.sun.jersey.version>
-        <org.springframework.boot.version>2.7.18</org.springframework.boot.version>
+        <org.springframework.boot.version>3.3.3</org.springframework.boot.version>
     </properties>
 
     <dependencies>
